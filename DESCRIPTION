@@ -1,0 +1,36 @@
+Package: mischooldata
+Title: Fetch and Process Michigan School Data
+Version: 0.1.0
+Authors@R:
+    person("Al", "Martin", , "almartin@example.com", role = c("aut", "cre"))
+Description: Downloads and processes school enrollment data from the Michigan
+    Center for Educational Performance and Information (CEPI) via MI School
+    Data. Provides functions for fetching headcount enrollment data and
+    transforming it into tidy format for analysis. Supports historical data
+    from 1995-96 through present.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.0)
+Imports:
+    dplyr,
+    readxl,
+    readr,
+    purrr,
+    stringr,
+    tidyr,
+    rlang,
+    httr,
+    rappdirs
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    ggplot2,
+    scales
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://almartin82.github.io/mischooldata/, https://github.com/almartin82/mischooldata
+BugReports: https://github.com/almartin82/mischooldata/issues
