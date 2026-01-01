@@ -1,13 +1,10 @@
 Package: mischooldata
-Title: Fetch and Process Michigan School Data
+Title: Michigan School Data
 Version: 0.1.0
 Authors@R:
     person("Al", "Martin", , "almartin@example.com", role = c("aut", "cre"))
-Description: Downloads and processes school enrollment data from the Michigan
-    Center for Educational Performance and Information (CEPI) via MI School
-    Data. Provides functions for fetching headcount enrollment data and
-    transforming it into tidy format for analysis. Supports historical data
-    from 1995-96 through present.
+Description: A simple, consistent interface for accessing Michigan
+    school data in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
