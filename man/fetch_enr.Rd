@@ -37,7 +37,7 @@ enr_wide <- fetch_enr(2024, tidy = FALSE)
 enr_fresh <- fetch_enr(2024, use_cache = FALSE)
 
 # Filter to specific district (Detroit)
-detroit <- enr_2024 \%>\%
+detroit <- enr_2024 |>
   dplyr::filter(district_id == "82015")
 }
 }
