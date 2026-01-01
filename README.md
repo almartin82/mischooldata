@@ -2,12 +2,13 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/almartin82/mischooldata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/almartin82/mischooldata/actions/workflows/R-CMD-check.yaml)
+[![Python Tests](https://github.com/almartin82/mischooldata/actions/workflows/python-test.yaml/badge.svg)](https://github.com/almartin82/mischooldata/actions/workflows/python-test.yaml)
 [![pkgdown](https://github.com/almartin82/mischooldata/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/almartin82/mischooldata/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 **[Documentation](https://almartin82.github.io/mischooldata/)** | **[Getting Started](https://almartin82.github.io/mischooldata/articles/quickstart.html)**
 
-Fetch and analyze Michigan public school enrollment data from the Center for Educational Performance and Information (CEPI).
+Fetch and analyze Michigan school enrollment data from the Center for Educational Performance and Information (CEPI) in R or Python.
 
 ## What can you find with mischooldata?
 
@@ -198,6 +199,8 @@ remotes::install_github("almartin82/mischooldata")
 
 ## Quick start
 
+### R
+
 ```r
 library(mischooldata)
 library(dplyr)
@@ -223,6 +226,36 @@ enr_2025 %>%
   filter(district_id == "82015", grade_level == "TOTAL",
          subgroup %in% c("white", "black", "hispanic", "asian")) %>%
   select(subgroup, n_students, pct)
+```
+
+### Python
+
+```python
+import pymischooldata as mi
+
+# Check available years
+years = mi.get_available_years()
+print(f"Data available from {years['min_year']} to {years['max_year']}")
+
+# Fetch one year
+enr_2025 = mi.fetch_enr(2025)
+
+# Fetch multiple years
+enr_multi = mi.fetch_enr_multi([2020, 2021, 2022, 2023, 2024, 2025])
+
+# State totals
+state_total = enr_2025[
+    (enr_2025['is_state'] == True) &
+    (enr_2025['subgroup'] == 'total_enrollment') &
+    (enr_2025['grade_level'] == 'TOTAL')
+]
+
+# Largest districts
+largest = enr_2025[
+    (enr_2025['is_district'] == True) &
+    (enr_2025['subgroup'] == 'total_enrollment') &
+    (enr_2025['grade_level'] == 'TOTAL')
+].nlargest(15, 'n_students')
 ```
 
 ## Data availability
