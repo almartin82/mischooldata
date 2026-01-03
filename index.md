@@ -31,6 +31,10 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Detroit decline](reference/figures/detroit-decline.png)
+
+Detroit decline
+
 ------------------------------------------------------------------------
 
 ### 2. Charter schools now serve 150,000+ students
@@ -50,6 +54,10 @@ enr_2025 %>%
   )
 ```
 
+![Charter growth](reference/figures/charter-growth.png)
+
+Charter growth
+
 ------------------------------------------------------------------------
 
 ### 3. Grand Rapids is more diverse than you think
@@ -65,6 +73,10 @@ enr %>%
   mutate(pct = round(pct * 100, 1)) %>%
   select(end_year, subgroup, pct)
 ```
+
+![Grand Rapids diversity](reference/figures/gr-diversity.png)
+
+Grand Rapids diversity
 
 ------------------------------------------------------------------------
 
@@ -84,6 +96,10 @@ enr %>%
   select(end_year, district_name, index)
 ```
 
+![UP decline](reference/figures/up-decline.png)
+
+UP decline
+
 ------------------------------------------------------------------------
 
 ### 5. Kindergarten dropped 7% during COVID
@@ -100,6 +116,10 @@ enr %>%
   select(end_year, grade_level, n_students)
 ```
 
+![COVID kindergarten](reference/figures/covid-k.png)
+
+COVID kindergarten
+
 ------------------------------------------------------------------------
 
 ### 6. Ann Arbor: island of stability
@@ -113,6 +133,10 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Ann Arbor stability](reference/figures/aa-stable.png)
+
+Ann Arbor stability
 
 ------------------------------------------------------------------------
 
@@ -130,6 +154,10 @@ enr_2025 %>%
   head(10)
 ```
 
+![Economic divide](reference/figures/econ-divide.png)
+
+Economic divide
+
 ------------------------------------------------------------------------
 
 ### 8. English learners concentrated in the southwest
@@ -146,6 +174,10 @@ enr_2025 %>%
   head(10)
 ```
 
+![EL concentration](reference/figures/el-concentration.png)
+
+EL concentration
+
 ------------------------------------------------------------------------
 
 ### 9. Flint’s water crisis visible in enrollment
@@ -159,6 +191,10 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Flint decline](reference/figures/flint-crisis.png)
+
+Flint decline
 
 ------------------------------------------------------------------------
 
@@ -175,6 +211,10 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, district_name, n_students)
 ```
+
+![Oakland suburbs](reference/figures/oakland-suburbs.png)
+
+Oakland suburbs
 
 ------------------------------------------------------------------------
 
