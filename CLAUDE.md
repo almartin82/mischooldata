@@ -105,11 +105,10 @@ Before using data, always verify:
 - Most years: `.xlsx` format
 - 2015 (2014-15): `.xlsb` format (may require special handling)
 
-## Git Commits and PRs
-- NEVER reference Claude, Claude Code, or AI assistance in commit messages
-- NEVER reference Claude, Claude Code, or AI assistance in PR descriptions
-- NEVER add Co-Authored-By lines mentioning Claude or Anthropic
-- Keep commit messages focused on what changed, not how it was written
+### GIT COMMIT POLICY
+- Commits are allowed
+- NO Claude Code attribution, NO Co-Authored-By trailers, NO emojis
+- Write normal commit messages as if a human wrote them
 
 ---
 
