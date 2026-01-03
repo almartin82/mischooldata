@@ -10,7 +10,7 @@ get_available_years()
 A list with components:
 \describe{
 \item{min_year}{Earliest available year (1996)}
-\item{max_year}{Most recent available year (2025)}
+\item{max_year}{Most recent available year (2024)}
 \item{description}{Human-readable description of the date range}
 }
 }
