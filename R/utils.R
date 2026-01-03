@@ -23,7 +23,7 @@ NULL
 get_available_years <- function() {
   list(
     min_year = 1996,
-    max_year = 2024,
-    description = "Michigan enrollment data is available from 1996 to 2024"
+    max_year = 2025,
+    description = "Michigan enrollment data is available from 1996 to 2025"
   )
 }
