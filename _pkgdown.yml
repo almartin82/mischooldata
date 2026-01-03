@@ -17,6 +17,15 @@ reference:
   contents:
   - fetch_enr
   - fetch_enr_multi
+- title: Data Processing
+  contents:
+  - tidy_enr
+  - id_enr_aggs
+  - enr_grade_aggs
+- title: Cache Management
+  contents:
+  - cache_status
+  - clear_cache
 - title: Utilities
   contents:
   - get_available_years
