@@ -14,7 +14,7 @@ NULL
 #' @return A list with components:
 #'   \describe{
 #'     \item{min_year}{Earliest available year (1996)}
-#'     \item{max_year}{Most recent available year (2025)}
+#'     \item{max_year}{Most recent available year (2024)}
 #'     \item{description}{Human-readable description of the date range}
 #'   }
 #' @export
@@ -23,7 +23,7 @@ NULL
 get_available_years <- function() {
   list(
     min_year = 1996,
-    max_year = 2025,
-    description = "Michigan enrollment data is available from 1996 to 2025"
+    max_year = 2024,
+    description = "Michigan enrollment data is available from 1996 to 2024"
   )
 }
