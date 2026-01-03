@@ -33,6 +33,8 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Detroit decline](man/figures/detroit-decline.png)
+
 ---
 
 ### 2. Charter schools now serve 150,000+ students
@@ -51,6 +53,8 @@ enr_2025 %>%
   )
 ```
 
+![Charter growth](man/figures/charter-growth.png)
+
 ---
 
 ### 3. Grand Rapids is more diverse than you think
@@ -65,6 +69,8 @@ enr %>%
   mutate(pct = round(pct * 100, 1)) %>%
   select(end_year, subgroup, pct)
 ```
+
+![Grand Rapids diversity](man/figures/gr-diversity.png)
 
 ---
 
@@ -83,6 +89,8 @@ enr %>%
   select(end_year, district_name, index)
 ```
 
+![UP decline](man/figures/up-decline.png)
+
 ---
 
 ### 5. Kindergarten dropped 7% during COVID
@@ -98,6 +106,8 @@ enr %>%
   select(end_year, grade_level, n_students)
 ```
 
+![COVID kindergarten](man/figures/covid-k.png)
+
 ---
 
 ### 6. Ann Arbor: island of stability
@@ -110,6 +120,8 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Ann Arbor stability](man/figures/aa-stable.png)
 
 ---
 
@@ -126,6 +138,8 @@ enr_2025 %>%
   head(10)
 ```
 
+![Economic divide](man/figures/econ-divide.png)
+
 ---
 
 ### 8. English learners concentrated in the southwest
@@ -141,6 +155,8 @@ enr_2025 %>%
   head(10)
 ```
 
+![EL concentration](man/figures/el-concentration.png)
+
 ---
 
 ### 9. Flint's water crisis visible in enrollment
@@ -153,6 +169,8 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Flint decline](man/figures/flint-crisis.png)
 
 ---
 
@@ -168,6 +186,8 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, district_name, n_students)
 ```
+
+![Oakland suburbs](man/figures/oakland-suburbs.png)
 
 ---
 
