@@ -33,9 +33,9 @@ get_available_years()
 #> [1] 1996
 #> 
 #> $max_year
-#> [1] 2025
+#> [1] 2024
 #> 
 #> $description
-#> [1] "Michigan enrollment data is available from 1996 to 2025"
+#> [1] "Michigan enrollment data is available from 1996 to 2024"
 #> 
 ```
