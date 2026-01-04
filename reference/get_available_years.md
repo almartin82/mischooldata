@@ -19,7 +19,7 @@ A list with components:
 
 - max_year:
 
-  Most recent available year (2025)
+  Most recent available year (2024)
 
 - description:
 
@@ -33,9 +33,9 @@ get_available_years()
 #> [1] 1996
 #> 
 #> $max_year
-#> [1] 2024
+#> [1] 2025
 #> 
 #> $description
-#> [1] "Michigan enrollment data is available from 1996 to 2024"
+#> [1] "Michigan enrollment data is available from 1996 to 2025"
 #> 
 ```
