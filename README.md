@@ -16,13 +16,13 @@ Fetch and analyze Michigan school enrollment data from the Center for Educationa
 **30 years of enrollment data (1996-2025).** 1.4 million students. 880+ districts. Here are ten stories hiding in the numbers - see the [Enrollment Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html) vignette for interactive visualizations:
 
 1. [Detroit's collapse is staggering](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#detroits-collapse-is-staggering) - Lost over 100,000 students since 2000
-2. [Charter schools now serve 150,000+ students](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#charter-schools-now-serve-150000-students) - One of the largest charter sectors in the country
+2. [Statewide enrollment has been declining](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#statewide-enrollment-has-been-declining) - Total K-12 enrollment trending downward
 3. [Grand Rapids is more diverse than you think](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#grand-rapids-is-more-diverse-than-you-think) - Majority-minority with growing Hispanic enrollment
 4. [The Upper Peninsula is emptying out](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#the-upper-peninsula-is-emptying-out) - Lost 25-40% of students since 2000
 5. [COVID hit kindergarten hard](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#covid-hit-kindergarten-hard) - Lost nearly 10,000 kindergartners in 2021
 6. [Ann Arbor: island of stability](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#ann-arbor-island-of-stability) - Maintains ~17,000 students while Detroit collapses
-7. [Economic disadvantage varies wildly](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#economic-disadvantage-varies-wildly) - From 90%+ in some districts to 10% in suburbs
-8. [English learners concentrated in the southwest](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#english-learners-concentrated-in-the-southwest) - Holland, Grand Rapids, Kalamazoo lead
+7. [Hispanic enrollment growing fastest](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#hispanic-enrollment-growing-fastest) - Fastest-growing demographic statewide
+8. [Largest districts by enrollment](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#largest-districts-by-enrollment) - Top 10 districts by total enrollment
 9. [Flint's water crisis visible in enrollment](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#flints-water-crisis-visible-in-enrollment) - Lost over 40% of students
 10. [Oakland County suburbs holding](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#oakland-county-suburbs-holding) - Troy, Rochester, Novi stable
 

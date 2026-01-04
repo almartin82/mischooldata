@@ -17,12 +17,12 @@ reference:
   contents:
   - fetch_enr
   - fetch_enr_multi
-- title: Data Processing
+- title: Data Transformation
   contents:
   - tidy_enr
   - id_enr_aggs
   - enr_grade_aggs
-- title: Cache Management
+- title: Caching
   contents:
   - cache_status
   - clear_cache
