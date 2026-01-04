@@ -56,6 +56,8 @@ if (is.list(years)) {
 enr <- fetch_enr_multi((max_year - 7):max_year)
 key_years <- seq(max(min_year, 2000), max_year, by = 5)
 if (!max_year %in% key_years) key_years <- c(key_years, max_year)
+# Exclude 2015 - uses .xlsb format which is not supported
+key_years <- key_years[key_years != 2015]
 enr_long <- fetch_enr_multi(key_years)
 enr_current <- fetch_enr(max_year)
 ```
@@ -79,22 +81,20 @@ ggplot(detroit, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-## 2. Charter schools now serve 150,000+ students
+## 2. Statewide enrollment has been declining
 
-Michigan has one of the largest charter sectors in the country, heavily concentrated in Detroit and urban areas.
+Michigan has lost hundreds of thousands of students since 2000, reflecting demographic shifts and economic changes.
 
-```{r charter-growth}
-charter <- enr %>%
-  filter(is_charter, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  group_by(end_year) %>%
-  summarize(n_students = sum(n_students, na.rm = TRUE), .groups = "drop")
+```{r state-decline}
+state <- enr %>%
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
 
-ggplot(charter, aes(x = end_year, y = n_students)) +
+ggplot(state, aes(x = end_year, y = n_students)) +
   geom_line(linewidth = 1.5, color = colors["total"]) +
   geom_point(size = 3, color = colors["total"]) +
   scale_y_continuous(labels = comma) +
-  labs(title = "Michigan Charter Schools Serve 150,000+",
-       subtitle = "One of the largest charter sectors in the country",
+  labs(title = "Michigan Statewide Enrollment Decline",
+       subtitle = "Total K-12 enrollment trending downward",
        x = "School Year", y = "Students") +
   theme_readme()
 ```
@@ -187,43 +187,42 @@ ggplot(aa, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-## 7. Economic disadvantage varies wildly
+## 7. Hispanic enrollment growing fastest
 
-Some districts have 90%+ economically disadvantaged students while wealthy suburbs hover around 10%.
+Hispanic students are the fastest-growing demographic across Michigan districts.
 
-```{r econ-divide}
-econ <- enr_current %>%
-  filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL") %>%
-  arrange(desc(pct)) %>%
-  head(10) %>%
-  mutate(district_label = reorder(district_name, pct))
+```{r hispanic-growth}
+hispanic_state <- enr %>%
+  filter(is_state, subgroup == "hispanic", grade_level == "TOTAL")
 
-ggplot(econ, aes(x = district_label, y = pct * 100)) +
-  geom_col(fill = colors["total"]) +
-  coord_flip() +
-  labs(title = "Economic Disadvantage Varies Wildly",
-       subtitle = "From 90%+ in some districts to 10% in wealthy suburbs",
-       x = "", y = "Percent Economically Disadvantaged") +
+ggplot(hispanic_state, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["hispanic"]) +
+  geom_point(size = 3, color = colors["hispanic"]) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Hispanic Enrollment Growing Statewide",
+       subtitle = "Fastest-growing demographic in Michigan schools",
+       x = "School Year", y = "Students") +
   theme_readme()
 ```
 
-## 8. English learners concentrated in the southwest
+## 8. Largest districts by enrollment
 
-Districts in the southwest corner (Holland, Grand Rapids, Kalamazoo) have the highest EL populations.
+The 10 largest districts represent a mix of urban, suburban, and diverse communities.
 
-```{r el-concentration}
-el <- enr_current %>%
-  filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
-  arrange(desc(pct)) %>%
+```{r largest-districts}
+largest <- enr_current %>%
+  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
   head(10) %>%
-  mutate(district_label = reorder(district_name, pct))
+  mutate(district_label = reorder(district_name, n_students))
 
-ggplot(el, aes(x = district_label, y = pct * 100)) +
+ggplot(largest, aes(x = district_label, y = n_students)) +
   geom_col(fill = colors["total"]) +
   coord_flip() +
-  labs(title = "English Learners in Southwest Michigan",
-       subtitle = "Holland, Grand Rapids, Kalamazoo have highest EL rates",
-       x = "", y = "Percent English Learners") +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Michigan's Largest School Districts",
+       subtitle = "Top 10 districts by total enrollment",
+       x = "", y = "Total Students") +
   theme_readme()
 ```
 
