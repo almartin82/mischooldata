@@ -63,8 +63,6 @@ ggplot(detroit, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-![](enrollment-trends_files/figure-html/detroit-decline-1.png)
-
 ## 2. Statewide enrollment has been declining
 
 Michigan has lost hundreds of thousands of students since 2000,
@@ -83,8 +81,6 @@ ggplot(state, aes(x = end_year, y = n_students)) +
        x = "School Year", y = "Students") +
   theme_readme()
 ```
-
-![](enrollment-trends_files/figure-html/state-decline-1.png)
 
 ## 3. Grand Rapids is more diverse than you think
 
@@ -108,8 +104,6 @@ ggplot(gr, aes(x = end_year, y = pct * 100, color = subgroup)) +
   theme_readme()
 ```
 
-![](enrollment-trends_files/figure-html/gr-diversity-1.png)
-
 ## 4. The Upper Peninsula is emptying out
 
 UP districts have lost 25-40% of students since 2000 as the region’s
@@ -132,8 +126,6 @@ ggplot(up, aes(x = end_year, y = n_students)) +
        x = "School Year", y = "Students") +
   theme_readme()
 ```
-
-![](enrollment-trends_files/figure-html/up-decline-1.png)
 
 ## 5. COVID hit kindergarten hard
 
@@ -162,8 +154,6 @@ ggplot(k_trend, aes(x = end_year, y = n_students, color = grade_label)) +
   theme_readme()
 ```
 
-![](enrollment-trends_files/figure-html/covid-k-1.png)
-
 ## 6. Ann Arbor: island of stability
 
 While Detroit hemorrhages students, Ann Arbor maintains around 17,000
@@ -184,8 +174,6 @@ ggplot(aa, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-![](enrollment-trends_files/figure-html/aa-stable-1.png)
-
 ## 7. Hispanic enrollment growing fastest
 
 Hispanic students are the fastest-growing demographic across Michigan
@@ -204,8 +192,6 @@ ggplot(hispanic_state, aes(x = end_year, y = n_students)) +
        x = "School Year", y = "Students") +
   theme_readme()
 ```
-
-![](enrollment-trends_files/figure-html/hispanic-growth-1.png)
 
 ## 8. Largest districts by enrollment
 
@@ -229,8 +215,6 @@ ggplot(largest, aes(x = district_label, y = n_students)) +
   theme_readme()
 ```
 
-![](enrollment-trends_files/figure-html/largest-districts-1.png)
-
 ## 9. Flint’s water crisis visible in enrollment
 
 Flint Community Schools lost over 40% of students during and after the
@@ -250,8 +234,6 @@ ggplot(flint, aes(x = end_year, y = n_students)) +
        x = "School Year", y = "Students") +
   theme_readme()
 ```
-
-![](enrollment-trends_files/figure-html/flint-crisis-1.png)
 
 ## 10. Oakland County suburbs holding
 
@@ -273,5 +255,3 @@ ggplot(oakland_trend, aes(x = end_year, y = n_students, color = district_name)) 
        x = "School Year", y = "Students", color = "") +
   theme_readme()
 ```
-
-![](enrollment-trends_files/figure-html/oakland-suburbs-1.png)
