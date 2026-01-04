@@ -7,189 +7,24 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-**[Documentation](https://almartin82.github.io/mischooldata/)** | **[Getting Started](https://almartin82.github.io/mischooldata/articles/quickstart.html)**
+**[Documentation](https://almartin82.github.io/mischooldata/)** | **[Getting Started](https://almartin82.github.io/mischooldata/articles/quickstart.html)** | **[Enrollment Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html)**
 
 Fetch and analyze Michigan school enrollment data from the Center for Educational Performance and Information (CEPI) in R or Python.
 
 ## What can you find with mischooldata?
 
-**30 years of enrollment data (1996-2025).** 1.4 million students. 880+ districts. Here are ten stories hiding in the numbers:
+**30 years of enrollment data (1996-2025).** 1.4 million students. 880+ districts. Here are ten stories hiding in the numbers - see the [Enrollment Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html) vignette for interactive visualizations:
 
----
-
-### 1. Detroit's collapse is staggering
-
-Detroit Public Schools Community District has lost over 100,000 students since 2000, now serving under 50,000.
-
-```r
-library(mischooldata)
-library(dplyr)
-
-enr <- fetch_enr_multi(c(2000, 2005, 2010, 2015, 2020, 2025))
-
-enr %>%
-  filter(is_district, district_id == "82015",
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, district_name, n_students)
-```
-
-![Detroit decline](man/figures/detroit-decline.png)
-
----
-
-### 2. Charter schools now serve 150,000+ students
-
-Michigan has one of the largest charter sectors in the country, heavily concentrated in Detroit and urban areas.
-
-```r
-enr_2025 <- fetch_enr(2025)
-
-# Charter enrollment statewide
-enr_2025 %>%
-  filter(is_charter, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  summarize(
-    total_charter = sum(n_students, na.rm = TRUE),
-    n_schools = n()
-  )
-```
-
-![Charter growth](man/figures/charter-growth.png)
-
----
-
-### 3. Grand Rapids is more diverse than you think
-
-Michigan's second-largest city has become majority-minority, with Hispanic enrollment growing fastest.
-
-```r
-enr %>%
-  filter(is_district, grepl("Grand Rapids", district_name),
-         grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(end_year, subgroup, pct)
-```
-
-![Grand Rapids diversity](man/figures/gr-diversity.png)
-
----
-
-### 4. The Upper Peninsula is emptying out
-
-UP districts have lost 25-40% of students since 2000 as the region's population ages.
-
-```r
-up_districts <- c("Marquette", "Houghton", "Iron Mountain", "Menominee")
-
-enr %>%
-  filter(is_district, grepl(paste(up_districts, collapse = "|"), district_name, ignore.case = TRUE),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  group_by(district_name) %>%
-  mutate(index = n_students / first(n_students) * 100) %>%
-  select(end_year, district_name, index)
-```
-
-![UP decline](man/figures/up-decline.png)
-
----
-
-### 5. Kindergarten dropped 7% during COVID
-
-Michigan lost nearly 10,000 kindergartners in 2021 and hasn't fully recovered.
-
-```r
-enr <- fetch_enr_multi(2018:2025)
-
-enr %>%
-  filter(is_state, subgroup == "total_enrollment",
-         grade_level %in% c("K", "01", "06", "12")) %>%
-  select(end_year, grade_level, n_students)
-```
-
-![COVID kindergarten](man/figures/covid-k.png)
-
----
-
-### 6. Ann Arbor: island of stability
-
-While Detroit hemorrhages students, Ann Arbor maintains around 17,000 and high diversity.
-
-```r
-enr %>%
-  filter(is_district, grepl("Ann Arbor", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, n_students)
-```
-
-![Ann Arbor stability](man/figures/aa-stable.png)
-
----
-
-### 7. Economic disadvantage varies wildly
-
-Some districts have 90%+ economically disadvantaged students while wealthy suburbs hover around 10%.
-
-```r
-enr_2025 %>%
-  filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL") %>%
-  arrange(desc(pct)) %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(district_name, n_students, pct) %>%
-  head(10)
-```
-
-![Economic divide](man/figures/econ-divide.png)
-
----
-
-### 8. English learners concentrated in the southwest
-
-Districts in the southwest corner (Holland, Grand Rapids, Kalamazoo) have the highest EL populations.
-
-```r
-enr_2025 %>%
-  filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
-  arrange(desc(pct)) %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(district_name, n_students, pct) %>%
-  head(10)
-```
-
-![EL concentration](man/figures/el-concentration.png)
-
----
-
-### 9. Flint's water crisis visible in enrollment
-
-Flint Community Schools lost over 40% of students during and after the water crisis.
-
-```r
-enr %>%
-  filter(is_district, grepl("Flint Community", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, n_students)
-```
-
-![Flint decline](man/figures/flint-crisis.png)
-
----
-
-### 10. Suburban Detroit is holding
-
-Oakland County districts like Troy, Rochester, and Novi maintain enrollment while the city collapses.
-
-```r
-oakland <- c("Troy", "Rochester", "Novi", "Farmington")
-
-enr %>%
-  filter(is_district, grepl(paste(oakland, collapse = "|"), district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, district_name, n_students)
-```
-
-![Oakland suburbs](man/figures/oakland-suburbs.png)
-
----
+1. [Detroit's collapse is staggering](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#detroits-collapse-is-staggering) - Lost over 100,000 students since 2000
+2. [Statewide enrollment has been declining](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#statewide-enrollment-has-been-declining) - Total K-12 enrollment trending downward
+3. [Grand Rapids is more diverse than you think](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#grand-rapids-is-more-diverse-than-you-think) - Majority-minority with growing Hispanic enrollment
+4. [The Upper Peninsula is emptying out](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#the-upper-peninsula-is-emptying-out) - Lost 25-40% of students since 2000
+5. [COVID hit kindergarten hard](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#covid-hit-kindergarten-hard) - Lost nearly 10,000 kindergartners in 2021
+6. [Ann Arbor: island of stability](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#ann-arbor-island-of-stability) - Maintains ~17,000 students while Detroit collapses
+7. [Hispanic enrollment growing fastest](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#hispanic-enrollment-growing-fastest) - Fastest-growing demographic statewide
+8. [Largest districts by enrollment](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#largest-districts-by-enrollment) - Top 10 districts by total enrollment
+9. [Flint's water crisis visible in enrollment](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#flints-water-crisis-visible-in-enrollment) - Lost over 40% of students
+10. [Oakland County suburbs holding](https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#oakland-county-suburbs-holding) - Troy, Rochester, Novi stable
 
 ## Installation
 
