@@ -24,8 +24,8 @@ tidy_enr <- function(df) {
   # Invariant columns (identifiers that stay the same)
   invariants <- c(
     "end_year", "type",
-    "district_id", "building_id",
-    "district_name", "building_name"
+    "district_id", "campus_id",
+    "district_name", "campus_name"
   )
   invariants <- invariants[invariants %in% names(df)]
 
@@ -122,7 +122,14 @@ tidy_enr <- function(df) {
 
   # Combine all tidy data
   dplyr::bind_rows(tidy_total, tidy_subgroups, tidy_grades) |>
-    dplyr::filter(!is.na(n_students))
+    dplyr::filter(!is.na(n_students)) |>
+    dplyr::mutate(
+      aggregation_flag = dplyr::case_when(
+        !is.na(district_id) & !is.na(campus_id) & district_id != "" & campus_id != "" ~ "campus",
+        !is.na(district_id) & district_id != "" ~ "district",
+        TRUE ~ "state"
+      )
+    )
 }
 
 
@@ -137,7 +144,7 @@ tidy_enr <- function(df) {
 #' \dontrun{
 #' tidy_data <- fetch_enr(2024)
 #' # Data already has aggregation flags via id_enr_aggs
-#' table(tidy_data$is_state, tidy_data$is_district, tidy_data$is_building)
+#' table(tidy_data$is_state, tidy_data$is_district, tidy_data$is_campus)
 #' }
 id_enr_aggs <- function(df) {
   df |>
@@ -148,8 +155,8 @@ id_enr_aggs <- function(df) {
       # District level: Type == "District"
       is_district = type == "District",
 
-      # Building level: Type == "Building"
-      is_building = type == "Building"
+      # Campus level: Type == "Building"
+      is_campus = type == "Building"
     )
 }
 
@@ -171,10 +178,10 @@ enr_grade_aggs <- function(df) {
   # Group by invariants (everything except grade_level and counts)
   group_vars <- c(
     "end_year", "type",
-    "district_id", "building_id",
-    "district_name", "building_name",
+    "district_id", "campus_id",
+    "district_name", "campus_name",
     "subgroup",
-    "is_state", "is_district", "is_building"
+    "is_state", "is_district", "is_campus"
   )
   group_vars <- group_vars[group_vars %in% names(df)]
 
