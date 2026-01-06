@@ -544,7 +544,7 @@ test_that("building counts preserved through tidy transformation", {
 
   n_buildings_wide <- sum(wide$type == "Building", na.rm = TRUE)
   n_buildings_tidy <- sum(
-    tidy$is_building &
+    tidy$is_campus &
       tidy$subgroup == "total_enrollment" &
       tidy$grade_level == "TOTAL",
     na.rm = TRUE
@@ -625,27 +625,27 @@ test_that("cache_status returns data frame", {
 test_that("different years have consistent data structure", {
   skip_if_offline()
 
-  data_2025 <- mischooldata::fetch_enr(2025, tidy = TRUE)
-  data_2024 <- mischooldata::fetch_enr(2024, tidy = TRUE)
+  data_2025 <- mischooldata::fetch_enr(2025, tidy = TRUE, use_cache = FALSE)
+  data_2024 <- mischooldata::fetch_enr(2024, tidy = TRUE, use_cache = FALSE)
 
   # Should have same columns
   expect_equal(sort(names(data_2025)), sort(names(data_2024)))
 
-  # Both should have state, district, building rows
+  # Both should have state, district, campus rows
   expect_true(any(data_2025$is_state))
   expect_true(any(data_2025$is_district))
-  expect_true(any(data_2025$is_building))
+  expect_true(any(data_2025$is_campus))
 
   expect_true(any(data_2024$is_state))
   expect_true(any(data_2024$is_district))
-  expect_true(any(data_2024$is_building))
+  expect_true(any(data_2024$is_campus))
 })
 
 test_that("year-over-year state total change is reasonable", {
   skip_if_offline()
 
-  data_2025 <- mischooldata::fetch_enr(2025, tidy = TRUE)
-  data_2024 <- mischooldata::fetch_enr(2024, tidy = TRUE)
+  data_2025 <- mischooldata::fetch_enr(2025, tidy = TRUE, use_cache = FALSE)
+  data_2024 <- mischooldata::fetch_enr(2024, tidy = TRUE, use_cache = FALSE)
 
   total_2025 <- data_2025$n_students[data_2025$is_state &
                                        data_2025$subgroup == "total_enrollment" &

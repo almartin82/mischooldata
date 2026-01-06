@@ -22,7 +22,8 @@ Imports:
     tidyr,
     rlang,
     httr,
-    rappdirs
+    rappdirs,
+    tibble
 Suggests:
     testthat (>= 3.0.0),
     knitr,
