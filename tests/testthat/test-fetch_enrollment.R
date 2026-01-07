@@ -47,7 +47,7 @@ test_that("2024 data fetches correctly", {
 
   # Required columns
   required_cols <- c("end_year", "type", "district_id", "subgroup",
-                     "grade_level", "n_students", "is_state", "is_district", "is_building")
+                     "grade_level", "n_students", "is_state", "is_district", "is_campus")
   expect_true(all(required_cols %in% names(enr)))
 
   # Year is correct
@@ -111,7 +111,7 @@ test_that("2024 has reasonable number of districts and buildings", {
   expect_lt(n_districts, 1000)
 
   # Building count (Michigan has 3000+ schools)
-  n_buildings <- length(unique(enr$building_id[enr$is_building]))
+  n_buildings <- length(unique(enr$campus_id[enr$is_campus]))
   expect_gt(n_buildings, 3000)
   expect_lt(n_buildings, 5000)
 })

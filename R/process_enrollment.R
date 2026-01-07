@@ -110,9 +110,9 @@ process_building_enr <- function(df, end_year) {
   )
 
   # IDs
-  building_col <- find_col(c("Building Code", "BuildingCode", "BLDG_CODE", "BCODE"))
-  if (!is.null(building_col)) {
-    result$building_id <- trimws(df[[building_col]])
+  campus_col <- find_col(c("Building Code", "BuildingCode", "BLDG_CODE", "BCODE"))
+  if (!is.null(campus_col)) {
+    result$campus_id <- trimws(df[[campus_col]])
   }
 
   district_col <- find_col(c("District Code", "DistrictCode", "DIST_CODE", "DCODE"))
@@ -121,9 +121,9 @@ process_building_enr <- function(df, end_year) {
   }
 
   # Names
-  building_name_col <- find_col(c("Building Name", "BuildingName", "BLDG_NAME", "BNAME"))
-  if (!is.null(building_name_col)) {
-    result$building_name <- trimws(df[[building_name_col]])
+  campus_name_col <- find_col(c("Building Name", "BuildingName", "BLDG_NAME", "BNAME"))
+  if (!is.null(campus_name_col)) {
+    result$campus_name <- trimws(df[[campus_name_col]])
   }
 
   district_name_col <- find_col(c("District Name", "DistrictName", "DIST_NAME", "DNAME"))
@@ -248,7 +248,7 @@ process_district_enr <- function(df, end_year) {
     result$district_id <- trimws(df[[district_col]])
   }
 
-  result$building_id <- rep(NA_character_, n_rows)
+  result$campus_id <- rep(NA_character_, n_rows)
 
   # Names
   district_name_col <- find_col(c("District Name", "DistrictName", "DIST_NAME", "DNAME"))
@@ -256,7 +256,7 @@ process_district_enr <- function(df, end_year) {
     result$district_name <- trimws(df[[district_name_col]])
   }
 
-  result$building_name <- rep(NA_character_, n_rows)
+  result$campus_name <- rep(NA_character_, n_rows)
 
   # Total enrollment
   total_col <- find_col(c("tot_all", "TOT_ALL", "TOTAL", "K12_TOTAL"))
@@ -383,9 +383,9 @@ process_state_enr <- function(df, end_year) {
     end_year = end_year,
     type = "State",
     district_id = NA_character_,
-    building_id = NA_character_,
+    campus_id = NA_character_,
     district_name = NA_character_,
-    building_name = NA_character_,
+    campus_name = NA_character_,
     stringsAsFactors = FALSE
   )
 
@@ -501,9 +501,9 @@ create_state_aggregate <- function(district_df, end_year) {
     end_year = end_year,
     type = "State",
     district_id = NA_character_,
-    building_id = NA_character_,
+    campus_id = NA_character_,
     district_name = NA_character_,
-    building_name = NA_character_,
+    campus_name = NA_character_,
     stringsAsFactors = FALSE
   )
 
