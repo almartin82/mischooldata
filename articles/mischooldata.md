@@ -58,9 +58,9 @@ The tidy format (default) has the following columns:
 - `end_year`: School year end (2024 = 2023-24)
 - `type`: “State”, “District”, or “Building”
 - `district_id`: 5-digit district code
-- `building_id`: 5-digit building code (NA for district/state rows)
+- `campus_id`: 5-digit building code (NA for district/state rows)
 - `district_name`: District name
-- `building_name`: Building name (NA for district/state rows)
+- `campus_name`: Building name (NA for district/state rows)
 - `grade_level`: “TOTAL”, “K”, “01”, “02”, …, “12”
 - `subgroup`: Demographic or total (“total_enrollment”, “white”,
   “black”, etc.)
@@ -68,7 +68,7 @@ The tidy format (default) has the following columns:
 - `pct`: Percentage of total enrollment
 - `is_state`: TRUE for state-level rows
 - `is_district`: TRUE for district-level rows
-- `is_building`: TRUE for building-level rows
+- `is_campus`: TRUE for building-level rows
 
 ## Common Queries
 
@@ -215,7 +215,7 @@ Each year’s data includes three levels of aggregation:
 - **District**: School districts (~800 in Michigan)
 - **State**: Statewide totals
 
-Use the `is_state`, `is_district`, and `is_building` flags to filter to
+Use the `is_state`, `is_district`, and `is_campus` flags to filter to
 the level you need.
 
 ## Getting Help

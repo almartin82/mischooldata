@@ -82,7 +82,8 @@
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"total"</span> <span class="op">=</span> <span class="st">"#2C3E50"</span>, <span class="st">"white"</span> <span class="op">=</span> <span class="st">"#3498DB"</span>, <span class="st">"black"</span> <span class="op">=</span> <span class="st">"#E74C3C"</span>,</span>
-<span>            <span class="st">"hispanic"</span> <span class="op">=</span> <span class="st">"#F39C12"</span>, <span class="st">"asian"</span> <span class="op">=</span> <span class="st">"#9B59B6"</span><span class="op">)</span></span></code></pre></div>
+<span>            <span class="st">"hispanic"</span> <span class="op">=</span> <span class="st">"#F39C12"</span>, <span class="st">"asian"</span> <span class="op">=</span> <span class="st">"#9B59B6"</span>, <span class="st">"native_american"</span> <span class="op">=</span> <span class="st">"#1ABC9C"</span>,</span>
+<span>            <span class="st">"pacific_islander"</span> <span class="op">=</span> <span class="st">"#E67E22"</span>, <span class="st">"multiracial"</span> <span class="op">=</span> <span class="st">"#95A5A6"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get available years</span></span>
 <span><span class="va">years</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_available_years.html">get_available_years</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -95,18 +96,20 @@
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Fetch data</span></span>
-<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="op">(</span><span class="va">max_year</span> <span class="op">-</span> <span class="fl">7</span><span class="op">)</span><span class="op">:</span><span class="va">max_year</span><span class="op">)</span></span>
+<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="op">(</span><span class="va">max_year</span> <span class="op">-</span> <span class="fl">7</span><span class="op">)</span><span class="op">:</span><span class="va">max_year</span>, use_cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">key_years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">min_year</span>, <span class="fl">2000</span><span class="op">)</span>, <span class="va">max_year</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="va">max_year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">key_years</span><span class="op">)</span> <span class="va">key_years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">key_years</span>, <span class="va">max_year</span><span class="op">)</span></span>
 <span><span class="co"># Exclude 2015 - uses .xlsb format which is not supported</span></span>
 <span><span class="va">key_years</span> <span class="op">&lt;-</span> <span class="va">key_years</span><span class="op">[</span><span class="va">key_years</span> <span class="op">!=</span> <span class="fl">2015</span><span class="op">]</span></span>
-<span><span class="va">enr_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="va">key_years</span><span class="op">)</span></span>
-<span><span class="va">enr_current</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr.html">fetch_enr</a></span><span class="op">(</span><span class="va">max_year</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">enr_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="va">key_years</span>, use_cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">enr_current</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fetch_enr.html">fetch_enr</a></span><span class="op">(</span><span class="va">max_year</span>, use_cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="detroits-collapse-is-staggering">1. Detroit’s collapse is staggering<a class="anchor" aria-label="anchor" href="#detroits-collapse-is-staggering"></a>
 </h2>
 <p>Detroit Public Schools Community District has lost over 100,000
-students since 2000, now serving under 50,000.</p>
+students since 2000, now serving under 50,000. This represents one of
+the most dramatic urban enrollment declines in American education
+history.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">detroit</span> <span class="op">&lt;-</span> <span class="va">enr_long</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">district_id</span> <span class="op">==</span> <span class="st">"82015"</span>,</span>
@@ -125,7 +128,9 @@ students since 2000, now serving under 50,000.</p>
 <h2 id="statewide-enrollment-has-been-declining">2. Statewide enrollment has been declining<a class="anchor" aria-label="anchor" href="#statewide-enrollment-has-been-declining"></a>
 </h2>
 <p>Michigan has lost hundreds of thousands of students since 2000,
-reflecting demographic shifts and economic changes.</p>
+reflecting demographic shifts and economic changes. The state peaked at
+around 1.7 million K-12 students and now serves approximately 1.4
+million.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">state</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
@@ -143,7 +148,8 @@ reflecting demographic shifts and economic changes.</p>
 <h2 id="grand-rapids-is-more-diverse-than-you-think">3. Grand Rapids is more diverse than you think<a class="anchor" aria-label="anchor" href="#grand-rapids-is-more-diverse-than-you-think"></a>
 </h2>
 <p>Michigan’s second-largest city has become majority-minority, with
-Hispanic enrollment growing fastest.</p>
+Hispanic enrollment growing fastest. Grand Rapids Public Schools now
+reflects a highly diverse student population.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gr</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Grand Rapids"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -164,7 +170,9 @@ Hispanic enrollment growing fastest.</p>
 <h2 id="the-upper-peninsula-is-emptying-out">4. The Upper Peninsula is emptying out<a class="anchor" aria-label="anchor" href="#the-upper-peninsula-is-emptying-out"></a>
 </h2>
 <p>UP districts have lost 25-40% of students since 2000 as the region’s
-population ages.</p>
+population ages and young families move south. This rural decline
+mirrors national patterns but is particularly acute in Michigan’s
+northern reaches.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">up_districts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Marquette"</span>, <span class="st">"Houghton"</span>, <span class="st">"Iron Mountain"</span>, <span class="st">"Menominee"</span><span class="op">)</span></span>
 <span><span class="va">up</span> <span class="op">&lt;-</span> <span class="va">enr_long</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -186,7 +194,8 @@ population ages.</p>
 <h2 id="covid-hit-kindergarten-hard">5. COVID hit kindergarten hard<a class="anchor" aria-label="anchor" href="#covid-hit-kindergarten-hard"></a>
 </h2>
 <p>Michigan lost nearly 10,000 kindergartners in 2021 and hasn’t fully
-recovered.</p>
+recovered. The pandemic disrupted the transition to formal schooling for
+thousands of Michigan families.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">k_trend</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
@@ -212,7 +221,8 @@ recovered.</p>
 <h2 id="ann-arbor-island-of-stability">6. Ann Arbor: island of stability<a class="anchor" aria-label="anchor" href="#ann-arbor-island-of-stability"></a>
 </h2>
 <p>While Detroit hemorrhages students, Ann Arbor maintains around 17,000
-and high diversity.</p>
+and high diversity. The university town’s economic stability and
+educated workforce create a different enrollment trajectory.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aa</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Ann Arbor"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -228,20 +238,22 @@ and high diversity.</p>
 <span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="hispanic-enrollment-growing-fastest">7. Hispanic enrollment growing fastest<a class="anchor" aria-label="anchor" href="#hispanic-enrollment-growing-fastest"></a>
+<h2 id="multiracial-enrollment-growing-fastest">7. Multiracial enrollment growing fastest<a class="anchor" aria-label="anchor" href="#multiracial-enrollment-growing-fastest"></a>
 </h2>
-<p>Hispanic students are the fastest-growing demographic across Michigan
-districts.</p>
+<p>Multiracial students are Michigan’s fastest-growing demographic,
+increasing 31% from 57,291 to 75,055 students since 2018. While overall
+enrollment declines, multiracial and Hispanic populations continue to
+grow, reshaping the state’s educational demographics.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hispanic_state</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"hispanic"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">multiracial_state</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"multiracial"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">hispanic_state</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"hispanic"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"hispanic"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">multiracial_state</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"multiracial"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"multiracial"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Hispanic Enrollment Growing Statewide"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Fastest-growing demographic in Michigan schools"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Multiracial Enrollment Growing Statewide"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Fastest-growing demographic in Michigan schools (+31% since 2018)"</span>,</span>
 <span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -249,7 +261,8 @@ districts.</p>
 <h2 id="largest-districts-by-enrollment">8. Largest districts by enrollment<a class="anchor" aria-label="anchor" href="#largest-districts-by-enrollment"></a>
 </h2>
 <p>The 10 largest districts represent a mix of urban, suburban, and
-diverse communities.</p>
+diverse communities. Detroit remains the largest despite decades of
+decline, followed by suburban powerhouses like Utica and Dearborn.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">largest</span> <span class="op">&lt;-</span> <span class="va">enr_current</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -270,7 +283,8 @@ diverse communities.</p>
 <h2 id="flints-water-crisis-visible-in-enrollment">9. Flint’s water crisis visible in enrollment<a class="anchor" aria-label="anchor" href="#flints-water-crisis-visible-in-enrollment"></a>
 </h2>
 <p>Flint Community Schools lost over 40% of students during and after
-the water crisis.</p>
+the water crisis. The crisis accelerated an already declining enrollment
+as families fled the city.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">flint</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Flint Community"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -289,7 +303,8 @@ the water crisis.</p>
 <h2 id="oakland-county-suburbs-holding">10. Oakland County suburbs holding<a class="anchor" aria-label="anchor" href="#oakland-county-suburbs-holding"></a>
 </h2>
 <p>Oakland County districts like Troy, Rochester, and Novi maintain
-enrollment while Detroit collapses.</p>
+enrollment while Detroit collapses. These affluent suburbs benefit from
+strong economies and excellent school reputations.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oakland</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Troy"</span>, <span class="st">"Rochester"</span>, <span class="st">"Novi"</span>, <span class="st">"Farmington"</span><span class="op">)</span></span>
 <span><span class="va">oakland_trend</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -303,6 +318,115 @@ enrollment while Detroit collapses.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Oakland County Suburbs Holding"</span>,</span>
 <span>       subtitle <span class="op">=</span> <span class="st">"Troy, Rochester, Novi, Farmington stable"</span>,</span>
 <span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span>, color <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="dearborn-arab-american-hub">11. Dearborn: Arab American educational hub<a class="anchor" aria-label="anchor" href="#dearborn-arab-american-hub"></a>
+</h2>
+<p>Dearborn Public Schools serves one of the largest Arab American
+communities in the nation. The district maintains stable enrollment with
+a unique demographic profile.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dearborn</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Dearborn"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Heights"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dearborn</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"total"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"total"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Dearborn: A Unique Michigan Story"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Home to largest Arab American student population in the US"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="black-enrollment-declining">12. Black student enrollment declining<a class="anchor" aria-label="anchor" href="#black-enrollment-declining"></a>
+</h2>
+<p>Black student enrollment in Michigan has declined significantly,
+driven primarily by Detroit’s collapse. This demographic shift is
+reshaping the state’s educational landscape.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">black_state</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"black"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">black_state</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"black"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"black"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Black Student Enrollment Declining"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Driven by Detroit's population loss"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="lansing-bucking-decline">13. Lansing bucking the urban decline<a class="anchor" aria-label="anchor" href="#lansing-bucking-decline"></a>
+</h2>
+<p>Unlike Detroit and Flint, Lansing School District has maintained
+relatively stable enrollment. The state capital’s diverse economy and
+state government employment provide a buffer against the losses seen in
+other urban cores.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lansing</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Lansing School District"</span>, <span class="va">district_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">lansing</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.5</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"total"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="va">colors</span><span class="op">[</span><span class="st">"total"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Lansing Bucking the Urban Decline"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"State capital maintains stability while other cities collapse"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="high-school-shrinking">14. High school enrollment shrinking faster<a class="anchor" aria-label="anchor" href="#high-school-shrinking"></a>
+</h2>
+<p>High school grades are shrinking faster than elementary grades
+statewide, as the birth rate decline from the 2008 recession reaches
+secondary schools.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grade_bands</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"K"</span>, <span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"03"</span>, <span class="st">"04"</span>, <span class="st">"05"</span>,</span>
+<span>                            <span class="st">"09"</span>, <span class="st">"10"</span>, <span class="st">"11"</span>, <span class="st">"12"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">grade_level</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"K"</span>, <span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"03"</span>, <span class="st">"04"</span>, <span class="st">"05"</span><span class="op">)</span>,</span>
+<span>                        <span class="st">"Elementary (K-5)"</span>, <span class="st">"High School (9-12)"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">level</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n_students <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n_students</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">grade_bands</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">n_students</span>, color <span class="op">=</span> <span class="va">level</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"High School Shrinking Faster Than Elementary"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"2008 recession birth rate decline reaching high school"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Students"</span>, color <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="demographic-transformation">15. Demographic transformation: Michigan’s changing face<a class="anchor" aria-label="anchor" href="#demographic-transformation"></a>
+</h2>
+<p>Michigan’s racial demographics are shifting dramatically. White
+student enrollment has declined substantially while Hispanic and
+multiracial populations grow. This transformation will reshape Michigan
+education for decades.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">demo_state</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"hispanic"</span>, <span class="st">"asian"</span>, <span class="st">"multiracial"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">demo_state</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">end_year</span>, y <span class="op">=</span> <span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, color <span class="op">=</span> <span class="va">subgroup</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">colors</span>,</span>
+<span>                     labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asian"</span>, <span class="st">"Black"</span>, <span class="st">"Hispanic"</span>, <span class="st">"Multiracial"</span>, <span class="st">"White"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Michigan's Demographic Transformation"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"White enrollment declining, Hispanic and multiracial growing"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"School Year"</span>, y <span class="op">=</span> <span class="st">"Percent of Students"</span>, color <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

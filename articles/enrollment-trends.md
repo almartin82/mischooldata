@@ -19,7 +19,8 @@ theme_readme <- function() {
 }
 
 colors <- c("total" = "#2C3E50", "white" = "#3498DB", "black" = "#E74C3C",
-            "hispanic" = "#F39C12", "asian" = "#9B59B6")
+            "hispanic" = "#F39C12", "asian" = "#9B59B6", "native_american" = "#1ABC9C",
+            "pacific_islander" = "#E67E22", "multiracial" = "#95A5A6")
 ```
 
 ``` r
@@ -34,19 +35,20 @@ if (is.list(years)) {
 }
 
 # Fetch data
-enr <- fetch_enr_multi((max_year - 7):max_year)
+enr <- fetch_enr_multi((max_year - 7):max_year, use_cache = TRUE)
 key_years <- seq(max(min_year, 2000), max_year, by = 5)
 if (!max_year %in% key_years) key_years <- c(key_years, max_year)
 # Exclude 2015 - uses .xlsb format which is not supported
 key_years <- key_years[key_years != 2015]
-enr_long <- fetch_enr_multi(key_years)
-enr_current <- fetch_enr(max_year)
+enr_long <- fetch_enr_multi(key_years, use_cache = TRUE)
+enr_current <- fetch_enr(max_year, use_cache = TRUE)
 ```
 
 ## 1. Detroit’s collapse is staggering
 
 Detroit Public Schools Community District has lost over 100,000 students
-since 2000, now serving under 50,000.
+since 2000, now serving under 50,000. This represents one of the most
+dramatic urban enrollment declines in American education history.
 
 ``` r
 detroit <- enr_long %>%
@@ -66,7 +68,9 @@ ggplot(detroit, aes(x = end_year, y = n_students)) +
 ## 2. Statewide enrollment has been declining
 
 Michigan has lost hundreds of thousands of students since 2000,
-reflecting demographic shifts and economic changes.
+reflecting demographic shifts and economic changes. The state peaked at
+around 1.7 million K-12 students and now serves approximately 1.4
+million.
 
 ``` r
 state <- enr %>%
@@ -85,7 +89,8 @@ ggplot(state, aes(x = end_year, y = n_students)) +
 ## 3. Grand Rapids is more diverse than you think
 
 Michigan’s second-largest city has become majority-minority, with
-Hispanic enrollment growing fastest.
+Hispanic enrollment growing fastest. Grand Rapids Public Schools now
+reflects a highly diverse student population.
 
 ``` r
 gr <- enr %>%
@@ -107,7 +112,9 @@ ggplot(gr, aes(x = end_year, y = pct * 100, color = subgroup)) +
 ## 4. The Upper Peninsula is emptying out
 
 UP districts have lost 25-40% of students since 2000 as the region’s
-population ages.
+population ages and young families move south. This rural decline
+mirrors national patterns but is particularly acute in Michigan’s
+northern reaches.
 
 ``` r
 up_districts <- c("Marquette", "Houghton", "Iron Mountain", "Menominee")
@@ -130,7 +137,8 @@ ggplot(up, aes(x = end_year, y = n_students)) +
 ## 5. COVID hit kindergarten hard
 
 Michigan lost nearly 10,000 kindergartners in 2021 and hasn’t fully
-recovered.
+recovered. The pandemic disrupted the transition to formal schooling for
+thousands of Michigan families.
 
 ``` r
 k_trend <- enr %>%
@@ -157,7 +165,8 @@ ggplot(k_trend, aes(x = end_year, y = n_students, color = grade_label)) +
 ## 6. Ann Arbor: island of stability
 
 While Detroit hemorrhages students, Ann Arbor maintains around 17,000
-and high diversity.
+and high diversity. The university town’s economic stability and
+educated workforce create a different enrollment trajectory.
 
 ``` r
 aa <- enr %>%
@@ -174,21 +183,23 @@ ggplot(aa, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-## 7. Hispanic enrollment growing fastest
+## 7. Multiracial enrollment growing fastest
 
-Hispanic students are the fastest-growing demographic across Michigan
-districts.
+Multiracial students are Michigan’s fastest-growing demographic,
+increasing 31% from 57,291 to 75,055 students since 2018. While overall
+enrollment declines, multiracial and Hispanic populations continue to
+grow, reshaping the state’s educational demographics.
 
 ``` r
-hispanic_state <- enr %>%
-  filter(is_state, subgroup == "hispanic", grade_level == "TOTAL")
+multiracial_state <- enr %>%
+  filter(is_state, subgroup == "multiracial", grade_level == "TOTAL")
 
-ggplot(hispanic_state, aes(x = end_year, y = n_students)) +
-  geom_line(linewidth = 1.5, color = colors["hispanic"]) +
-  geom_point(size = 3, color = colors["hispanic"]) +
+ggplot(multiracial_state, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["multiracial"]) +
+  geom_point(size = 3, color = colors["multiracial"]) +
   scale_y_continuous(labels = comma) +
-  labs(title = "Hispanic Enrollment Growing Statewide",
-       subtitle = "Fastest-growing demographic in Michigan schools",
+  labs(title = "Multiracial Enrollment Growing Statewide",
+       subtitle = "Fastest-growing demographic in Michigan schools (+31% since 2018)",
        x = "School Year", y = "Students") +
   theme_readme()
 ```
@@ -196,7 +207,8 @@ ggplot(hispanic_state, aes(x = end_year, y = n_students)) +
 ## 8. Largest districts by enrollment
 
 The 10 largest districts represent a mix of urban, suburban, and diverse
-communities.
+communities. Detroit remains the largest despite decades of decline,
+followed by suburban powerhouses like Utica and Dearborn.
 
 ``` r
 largest <- enr_current %>%
@@ -218,7 +230,8 @@ ggplot(largest, aes(x = district_label, y = n_students)) +
 ## 9. Flint’s water crisis visible in enrollment
 
 Flint Community Schools lost over 40% of students during and after the
-water crisis.
+water crisis. The crisis accelerated an already declining enrollment as
+families fled the city.
 
 ``` r
 flint <- enr %>%
@@ -238,7 +251,8 @@ ggplot(flint, aes(x = end_year, y = n_students)) +
 ## 10. Oakland County suburbs holding
 
 Oakland County districts like Troy, Rochester, and Novi maintain
-enrollment while Detroit collapses.
+enrollment while Detroit collapses. These affluent suburbs benefit from
+strong economies and excellent school reputations.
 
 ``` r
 oakland <- c("Troy", "Rochester", "Novi", "Farmington")
@@ -253,5 +267,119 @@ ggplot(oakland_trend, aes(x = end_year, y = n_students, color = district_name)) 
   labs(title = "Oakland County Suburbs Holding",
        subtitle = "Troy, Rochester, Novi, Farmington stable",
        x = "School Year", y = "Students", color = "") +
+  theme_readme()
+```
+
+## 11. Dearborn: Arab American educational hub
+
+Dearborn Public Schools serves one of the largest Arab American
+communities in the nation. The district maintains stable enrollment with
+a unique demographic profile.
+
+``` r
+dearborn <- enr %>%
+  filter(is_district, grepl("Dearborn", district_name, ignore.case = TRUE),
+         !grepl("Heights", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL")
+
+ggplot(dearborn, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["total"]) +
+  geom_point(size = 3, color = colors["total"]) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  labs(title = "Dearborn: A Unique Michigan Story",
+       subtitle = "Home to largest Arab American student population in the US",
+       x = "School Year", y = "Students") +
+  theme_readme()
+```
+
+## 12. Black student enrollment declining
+
+Black student enrollment in Michigan has declined significantly, driven
+primarily by Detroit’s collapse. This demographic shift is reshaping the
+state’s educational landscape.
+
+``` r
+black_state <- enr %>%
+  filter(is_state, subgroup == "black", grade_level == "TOTAL")
+
+ggplot(black_state, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["black"]) +
+  geom_point(size = 3, color = colors["black"]) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "Black Student Enrollment Declining",
+       subtitle = "Driven by Detroit's population loss",
+       x = "School Year", y = "Students") +
+  theme_readme()
+```
+
+## 13. Lansing bucking the urban decline
+
+Unlike Detroit and Flint, Lansing School District has maintained
+relatively stable enrollment. The state capital’s diverse economy and
+state government employment provide a buffer against the losses seen in
+other urban cores.
+
+``` r
+lansing <- enr %>%
+  filter(is_district, grepl("Lansing School District", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL")
+
+ggplot(lansing, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["total"]) +
+  geom_point(size = 3, color = colors["total"]) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  labs(title = "Lansing Bucking the Urban Decline",
+       subtitle = "State capital maintains stability while other cities collapse",
+       x = "School Year", y = "Students") +
+  theme_readme()
+```
+
+## 14. High school enrollment shrinking faster
+
+High school grades are shrinking faster than elementary grades
+statewide, as the birth rate decline from the 2008 recession reaches
+secondary schools.
+
+``` r
+grade_bands <- enr %>%
+  filter(is_state, subgroup == "total_enrollment",
+         grade_level %in% c("K", "01", "02", "03", "04", "05",
+                            "09", "10", "11", "12")) %>%
+  mutate(level = ifelse(grade_level %in% c("K", "01", "02", "03", "04", "05"),
+                        "Elementary (K-5)", "High School (9-12)")) %>%
+  group_by(end_year, level) %>%
+  summarize(n_students = sum(n_students, na.rm = TRUE), .groups = "drop")
+
+ggplot(grade_bands, aes(x = end_year, y = n_students, color = level)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  scale_y_continuous(labels = comma) +
+  labs(title = "High School Shrinking Faster Than Elementary",
+       subtitle = "2008 recession birth rate decline reaching high school",
+       x = "School Year", y = "Students", color = "") +
+  theme_readme()
+```
+
+## 15. Demographic transformation: Michigan’s changing face
+
+Michigan’s racial demographics are shifting dramatically. White student
+enrollment has declined substantially while Hispanic and multiracial
+populations grow. This transformation will reshape Michigan education
+for decades.
+
+``` r
+demo_state <- enr %>%
+  filter(is_state, grade_level == "TOTAL",
+         subgroup %in% c("white", "black", "hispanic", "asian", "multiracial"))
+
+ggplot(demo_state, aes(x = end_year, y = pct * 100, color = subgroup)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  scale_color_manual(values = colors,
+                     labels = c("Asian", "Black", "Hispanic", "Multiracial", "White")) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(title = "Michigan's Demographic Transformation",
+       subtitle = "White enrollment declining, Hispanic and multiracial growing",
+       x = "School Year", y = "Percent of Students", color = "") +
   theme_readme()
 ```

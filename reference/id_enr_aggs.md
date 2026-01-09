@@ -25,6 +25,6 @@ data.frame with boolean aggregation flags
 if (FALSE) { # \dontrun{
 tidy_data <- fetch_enr(2024)
 # Data already has aggregation flags via id_enr_aggs
-table(tidy_data$is_state, tidy_data$is_district, tidy_data$is_building)
+table(tidy_data$is_state, tidy_data$is_district, tidy_data$is_campus)
 } # }
 ```
