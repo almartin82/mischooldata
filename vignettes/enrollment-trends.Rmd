@@ -192,20 +192,20 @@ ggplot(aa, aes(x = end_year, y = n_students)) +
   theme_readme()
 ```
 
-## 7. Hispanic enrollment growing fastest {#hispanic-enrollment-growing-fastest}
+## 7. Multiracial enrollment growing fastest {#multiracial-enrollment-growing-fastest}
 
-Hispanic students are the fastest-growing demographic across Michigan districts. While overall enrollment declines, the Hispanic student population continues to grow, reshaping the state's educational demographics.
+Multiracial students are Michigan's fastest-growing demographic, increasing 31% from 57,291 to 75,055 students since 2018. While overall enrollment declines, multiracial and Hispanic populations continue to grow, reshaping the state's educational demographics.
 
-```{r hispanic-growth}
-hispanic_state <- enr %>%
-  filter(is_state, subgroup == "hispanic", grade_level == "TOTAL")
+```{r multiracial-growth}
+multiracial_state <- enr %>%
+  filter(is_state, subgroup == "multiracial", grade_level == "TOTAL")
 
-ggplot(hispanic_state, aes(x = end_year, y = n_students)) +
-  geom_line(linewidth = 1.5, color = colors["hispanic"]) +
-  geom_point(size = 3, color = colors["hispanic"]) +
+ggplot(multiracial_state, aes(x = end_year, y = n_students)) +
+  geom_line(linewidth = 1.5, color = colors["multiracial"]) +
+  geom_point(size = 3, color = colors["multiracial"]) +
   scale_y_continuous(labels = comma) +
-  labs(title = "Hispanic Enrollment Growing Statewide",
-       subtitle = "Fastest-growing demographic in Michigan schools",
+  labs(title = "Multiracial Enrollment Growing Statewide",
+       subtitle = "Fastest-growing demographic in Michigan schools (+31% since 2018)",
        x = "School Year", y = "Students") +
   theme_readme()
 ```
