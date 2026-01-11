@@ -1,0 +1,223 @@
+# Getting Started with mischooldata
+
+## Overview
+
+The mischooldata package provides access to Michigan K-12 enrollment
+data from the Center for Educational Performance and Information (CEPI).
+Data is available from 1996 to present for all public schools,
+districts, and the state.
+
+## Installation
+
+``` r
+# Install from GitHub
+remotes::install_github("almartin82/mischooldata")
+```
+
+## Quick Start
+
+### Fetch a Single Year
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+# Get 2024 enrollment data (2023-24 school year)
+enr_2024 <- fetch_enr(2024)
+
+# View state total
+enr_2024 |>
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL") |>
+  select(end_year, n_students)
+```
+
+### Fetch Multiple Years
+
+``` r
+# Get 5 years of data
+enr_multi <- fetch_enr_multi(2020:2024)
+
+# Track statewide enrollment over time
+enr_multi |>
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL") |>
+  select(end_year, n_students) |>
+  arrange(end_year)
+```
+
+### Check Available Years
+
+``` r
+# See what years are available
+get_available_years()
+```
+
+## Data Structure
+
+The tidy format (default) has the following columns:
+
+- `end_year`: School year end (2024 = 2023-24)
+- `type`: “State”, “District”, or “Building”
+- `district_id`: 5-digit district code
+- `campus_id`: 5-digit building code (NA for district/state rows)
+- `district_name`: District name
+- `campus_name`: Building name (NA for district/state rows)
+- `grade_level`: “TOTAL”, “K”, “01”, “02”, …, “12”
+- `subgroup`: Demographic or total (“total_enrollment”, “white”,
+  “black”, etc.)
+- `n_students`: Enrollment count
+- `pct`: Percentage of total enrollment
+- `is_state`: TRUE for state-level rows
+- `is_district`: TRUE for district-level rows
+- `is_campus`: TRUE for building-level rows
+
+## Common Queries
+
+### Find Largest Districts
+
+``` r
+enr_2024 |>
+  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") |>
+  arrange(desc(n_students)) |>
+  select(district_name, n_students) |>
+  head(10)
+```
+
+### Get Detroit Enrollment
+
+``` r
+# Detroit Public Schools Community District = 82015
+enr_2024 |>
+  filter(district_id == "82015", grade_level == "TOTAL") |>
+  select(subgroup, n_students, pct) |>
+  arrange(desc(n_students))
+```
+
+### Analyze Demographics Over Time
+
+``` r
+enr_multi |>
+  filter(is_state, grade_level == "TOTAL",
+         subgroup %in% c("white", "black", "hispanic", "asian")) |>
+  select(end_year, subgroup, n_students) |>
+  tidyr::pivot_wider(names_from = subgroup, values_from = n_students)
+```
+
+### Track Kindergarten Enrollment (COVID Impact)
+
+``` r
+enr_multi |>
+  filter(is_state, subgroup == "total_enrollment", grade_level == "K") |>
+  select(end_year, n_students) |>
+  arrange(end_year)
+```
+
+## Wide Format
+
+For analysis that needs all demographics in columns, use `tidy = FALSE`:
+
+``` r
+wide_2024 <- fetch_enr(2024, tidy = FALSE)
+
+# Contains columns like: row_total, white, black, hispanic, asian,
+# grade_k, grade_01, etc.
+names(wide_2024)
+```
+
+## Caching
+
+Data is cached locally to avoid repeated downloads:
+
+``` r
+# View cached files
+cache_status()
+
+# Clear specific year
+clear_cache(2024)
+
+# Clear all cached data
+clear_cache()
+
+# Force fresh download (ignore cache)
+enr_fresh <- fetch_enr(2024, use_cache = FALSE)
+```
+
+## Michigan-Specific Notes
+
+### District Codes
+
+Michigan uses 5-digit district codes. The first two digits indicate the
+Intermediate School District (ISD):
+
+- `82xxx` - Wayne RESA (includes Detroit)
+- `63xxx` - Oakland Schools
+- `50xxx` - Macomb ISD
+- `33xxx` - Kent ISD (includes Grand Rapids)
+
+### Key Districts
+
+| District ID | Name                                      | Approx. Enrollment |
+|-------------|-------------------------------------------|--------------------|
+| 82015       | Detroit Public Schools Community District | ~48,000            |
+| 33020       | Grand Rapids Public Schools               | ~15,000            |
+| 17010       | Ann Arbor Public Schools                  | ~17,000            |
+| 23010       | Flint Community Schools                   | ~3,500             |
+
+### Historical Context
+
+Michigan enrollment has been declining: - 2010: ~1.6 million students -
+2020: ~1.4 million students - Detroit has lost over 100,000 students
+since 2000
+
+## Troubleshooting
+
+### Slow Downloads
+
+Initial downloads may take 1-2 minutes as files are ~10MB each. Use
+caching to avoid repeated downloads.
+
+### Missing Data
+
+Some years or subgroups may have suppressed data (shown as NA) for
+privacy protection when counts are small.
+
+### xlsb Format
+
+The 2015 (2014-15) file uses `.xlsb` format which may require additional
+software to read.
+
+### Historical Data Formats
+
+Michigan’s data files have evolved over time with different column
+naming conventions:
+
+- **1996-2003**: Legacy format with uppercase column names (e.g.,
+  `TOT_ALL`, `TOT_M_IND`, `K_TOTAL`)
+
+  - No multiracial or Pacific Islander categories (not tracked
+    separately until 2000s)
+  - Race demographics stored as separate M/F columns that are summed
+
+- **2004-2009**: Transitional format with some lowercase column names
+
+- **2010-present**: Modern format with consistent lowercase names (e.g.,
+  `tot_all`, `tot_ai`, `k_totl`)
+
+  - Includes multiracial and Pacific Islander categories
+
+The package handles all these formats automatically - just specify the
+year you want.
+
+### Building vs District vs State Data
+
+Each year’s data includes three levels of aggregation:
+
+- **Building**: Individual schools (3,500+ in Michigan)
+- **District**: School districts (~800 in Michigan)
+- **State**: Statewide totals
+
+Use the `is_state`, `is_district`, and `is_campus` flags to filter to
+the level you need.
+
+## Getting Help
+
+Report issues at: <https://github.com/almartin82/mischooldata/issues>
