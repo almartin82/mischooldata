@@ -221,3 +221,7 @@ the level you need.
 ## Getting Help
 
 Report issues at: <https://github.com/almartin82/mischooldata/issues>
+
+``` r
+sessionInfo()
+```

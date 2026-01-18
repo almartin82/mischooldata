@@ -383,3 +383,7 @@ ggplot(demo_state, aes(x = end_year, y = pct * 100, color = subgroup)) +
        x = "School Year", y = "Percent of Students", color = "") +
   theme_readme()
 ```
+
+``` r
+sessionInfo()
+```
