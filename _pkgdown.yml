@@ -1,5 +1,19 @@
 url: https://almartin82.github.io/mischooldata/
 
+# Exclude internal docs from public site
+articles:
+  - title: Articles
+    navbar: ~
+    contents:
+    - mischooldata
+    - enrollment-trends
+  - title: internal
+    contents:
+    - starts_with("CLAUDE")
+    - starts_with("EXPANSION")
+    - starts_with("PRD")
+    - starts_with("TODO")
+
 authors:
   Andy Martin:
     href: https://github.com/almartin82
