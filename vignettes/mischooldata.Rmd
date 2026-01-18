@@ -221,3 +221,7 @@ Use the `is_state`, `is_district`, and `is_campus` flags to filter to the level 
 ## Getting Help
 
 Report issues at: https://github.com/almartin82/mischooldata/issues
+
+```{r session-info}
+sessionInfo()
+```

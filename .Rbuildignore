@@ -8,4 +8,6 @@
 ^\.github$
 ^CLAUDE\.md$
 ^PRD\.md$
+^EXPANSION\.md$
+^generate_readme_figs\.R$
 ^py.*schooldata$
