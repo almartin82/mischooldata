@@ -62,34 +62,201 @@
 <div class="section level2">
 <h2 id="what-can-you-find-with-mischooldata">What can you find with mischooldata?<a class="anchor" aria-label="anchor" href="#what-can-you-find-with-mischooldata"></a>
 </h2>
-<p><strong>30 years of enrollment data (1996-2025).</strong> 1.4 million students. 880+ districts. Here are ten stories hiding in the numbers - see the <a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html">Enrollment Trends</a> vignette for interactive visualizations:</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#detroits-collapse-is-staggering">Detroit’s collapse is staggering</a> - Lost over 100,000 students since 2000</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#statewide-enrollment-has-been-declining">Statewide enrollment has been declining</a> - Total K-12 enrollment trending downward</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#grand-rapids-is-more-diverse-than-you-think">Grand Rapids is more diverse than you think</a> - Majority-minority with growing Hispanic enrollment</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#the-upper-peninsula-is-emptying-out">The Upper Peninsula is emptying out</a> - Lost 25-40% of students since 2000</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#covid-hit-kindergarten-hard">COVID hit kindergarten hard</a> - Lost nearly 10,000 kindergartners in 2021</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#ann-arbor-island-of-stability">Ann Arbor: island of stability</a> - Maintains ~17,000 students while Detroit collapses</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#hispanic-enrollment-growing-fastest">Hispanic enrollment growing fastest</a> - Fastest-growing demographic statewide</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#largest-districts-by-enrollment">Largest districts by enrollment</a> - Top 10 districts by total enrollment</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#flints-water-crisis-visible-in-enrollment">Flint’s water crisis visible in enrollment</a> - Lost over 40% of students</li>
-<li>
-<a href="https://almartin82.github.io/mischooldata/articles/enrollment-trends.html#oakland-county-suburbs-holding">Oakland County suburbs holding</a> - Troy, Rochester, Novi stable</li>
-</ol>
+<p><strong>30 years of enrollment data (1996-2025).</strong> 1.4 million students. 880+ districts. Here are fifteen stories hiding in the numbers:</p>
+<div class="section level3">
+<h3 id="id_1-detroits-collapse-is-staggering">1. Detroit’s collapse is staggering<a class="anchor" aria-label="anchor" href="#id_1-detroits-collapse-is-staggering"></a>
+</h3>
+<p>Detroit Public Schools Community District has lost over 100,000 students since 2000, now serving under 50,000. This represents one of the most dramatic urban enrollment declines in American education history.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/detroit-decline-1.png" alt="Detroit decline"><div class="figcaption">Detroit decline</div>
+</div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mischooldata/">mischooldata</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">district_id</span> <span class="op">==</span> <span class="st">"82015"</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_2-statewide-enrollment-has-been-declining">2. Statewide enrollment has been declining<a class="anchor" aria-label="anchor" href="#id_2-statewide-enrollment-has-been-declining"></a>
+</h3>
+<p>Michigan has lost hundreds of thousands of students since 2000, reflecting demographic shifts and economic changes. The state peaked at around 1.7 million K-12 students and now serves approximately 1.4 million.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/state-decline-1.png" alt="State decline"><div class="figcaption">State decline</div>
+</div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_3-grand-rapids-is-more-diverse-than-you-think">3. Grand Rapids is more diverse than you think<a class="anchor" aria-label="anchor" href="#id_3-grand-rapids-is-more-diverse-than-you-think"></a>
+</h3>
+<p>Michigan’s second-largest city has become majority-minority, with Hispanic enrollment growing fastest. Grand Rapids Public Schools now reflects a highly diverse student population.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/gr-diversity-1.png" alt="Grand Rapids diversity"><div class="figcaption">Grand Rapids diversity</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Grand Rapids"</span>, <span class="va">district_name</span><span class="op">)</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"hispanic"</span>, <span class="st">"asian"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_4-the-upper-peninsula-is-emptying-out">4. The Upper Peninsula is emptying out<a class="anchor" aria-label="anchor" href="#id_4-the-upper-peninsula-is-emptying-out"></a>
+</h3>
+<p>UP districts have lost 25-40% of students since 2000 as the region’s population ages and young families move south. This rural decline mirrors national patterns but is particularly acute in Michigan’s northern reaches.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/up-decline-1.png" alt="UP decline"><div class="figcaption">UP decline</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Marquette|Houghton|Iron Mountain|Menominee"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_5-covid-hit-kindergarten-hard">5. COVID hit kindergarten hard<a class="anchor" aria-label="anchor" href="#id_5-covid-hit-kindergarten-hard"></a>
+</h3>
+<p>Michigan lost nearly 10,000 kindergartners in 2021 and hasn’t fully recovered. The pandemic disrupted the transition to formal schooling for thousands of Michigan families.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/covid-k-1.png" alt="COVID kindergarten"><div class="figcaption">COVID kindergarten</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"K"</span>, <span class="st">"01"</span>, <span class="st">"06"</span>, <span class="st">"12"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_6-ann-arbor-island-of-stability">6. Ann Arbor: island of stability<a class="anchor" aria-label="anchor" href="#id_6-ann-arbor-island-of-stability"></a>
+</h3>
+<p>While Detroit hemorrhages students, Ann Arbor maintains around 17,000 and high diversity. The university town’s economic stability and educated workforce create a different enrollment trajectory.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/aa-stable-1.png" alt="Ann Arbor stable"><div class="figcaption">Ann Arbor stable</div>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Ann Arbor"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_7-multiracial-enrollment-growing-fastest">7. Multiracial enrollment growing fastest<a class="anchor" aria-label="anchor" href="#id_7-multiracial-enrollment-growing-fastest"></a>
+</h3>
+<p>Multiracial students are Michigan’s fastest-growing demographic, increasing 31% from 57,291 to 75,055 students since 2018. While overall enrollment declines, multiracial and Hispanic populations continue to grow.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/multiracial-growth-1.png" alt="Multiracial growth"><div class="figcaption">Multiracial growth</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mischooldata/">mischooldata</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"multiracial"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>change <span class="op">=</span> <span class="va">n_students</span> <span class="op">-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span>,</span>
+<span>         pct_change <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="op">(</span><span class="va">n_students</span> <span class="op">/</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">lag</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># 2018: 57,291 students → 2025: 75,055 students (+31%)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_8-largest-districts-by-enrollment">8. Largest districts by enrollment<a class="anchor" aria-label="anchor" href="#id_8-largest-districts-by-enrollment"></a>
+</h3>
+<p>The 10 largest districts represent a mix of urban, suburban, and diverse communities. Detroit remains the largest despite decades of decline.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/largest-districts-1.png" alt="Largest districts"><div class="figcaption">Largest districts</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr.html">fetch_enr</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_9-flints-water-crisis-visible-in-enrollment">9. Flint’s water crisis visible in enrollment<a class="anchor" aria-label="anchor" href="#id_9-flints-water-crisis-visible-in-enrollment"></a>
+</h3>
+<p>Flint Community Schools lost over 40% of students during and after the water crisis. The crisis accelerated an already declining enrollment as families fled the city.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/flint-crisis-1.png" alt="Flint crisis"><div class="figcaption">Flint crisis</div>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Flint Community"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_10-oakland-county-suburbs-holding">10. Oakland County suburbs holding<a class="anchor" aria-label="anchor" href="#id_10-oakland-county-suburbs-holding"></a>
+</h3>
+<p>Oakland County districts like Troy, Rochester, and Novi maintain enrollment while Detroit collapses. These affluent suburbs benefit from strong economies and excellent school reputations.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/oakland-suburbs-1.png" alt="Oakland suburbs"><div class="figcaption">Oakland suburbs</div>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Troy|Rochester|Novi|Farmington"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_11-dearborn-arab-american-educational-hub">11. Dearborn: Arab American educational hub<a class="anchor" aria-label="anchor" href="#id_11-dearborn-arab-american-educational-hub"></a>
+</h3>
+<p>Dearborn Public Schools serves one of the largest Arab American communities in the nation. The district maintains stable enrollment with a unique demographic profile.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/dearborn-enrollment-1.png" alt="Dearborn enrollment"><div class="figcaption">Dearborn enrollment</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Dearborn"</span>, <span class="va">district_name</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Heights"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_12-black-student-enrollment-declining">12. Black student enrollment declining<a class="anchor" aria-label="anchor" href="#id_12-black-student-enrollment-declining"></a>
+</h3>
+<p>Black student enrollment in Michigan has declined significantly, driven primarily by Detroit’s collapse. This demographic shift is reshaping the state’s educational landscape.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/black-decline-1.png" alt="Black decline"><div class="figcaption">Black decline</div>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"black"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_13-lansing-bucking-the-urban-decline">13. Lansing bucking the urban decline<a class="anchor" aria-label="anchor" href="#id_13-lansing-bucking-the-urban-decline"></a>
+</h3>
+<p>Unlike Detroit and Flint, Lansing School District has maintained relatively stable enrollment. The state capital’s diverse economy and state government employment provide a buffer.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/lansing-stable-1.png" alt="Lansing stable"><div class="figcaption">Lansing stable</div>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Lansing School District"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_14-high-school-enrollment-shrinking-faster">14. High school enrollment shrinking faster<a class="anchor" aria-label="anchor" href="#id_14-high-school-enrollment-shrinking-faster"></a>
+</h3>
+<p>High school grades are shrinking faster than elementary grades statewide, as the birth rate decline from the 2008 recession reaches secondary schools.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/hs-vs-elem-1.png" alt="High school vs elementary"><div class="figcaption">High school vs elementary</div>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"K"</span>, <span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"03"</span>, <span class="st">"04"</span>, <span class="st">"05"</span>,</span>
+<span>                            <span class="st">"09"</span>, <span class="st">"10"</span>, <span class="st">"11"</span>, <span class="st">"12"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="id_15-demographic-transformation-michigans-changing-face">15. Demographic transformation: Michigan’s changing face<a class="anchor" aria-label="anchor" href="#id_15-demographic-transformation-michigans-changing-face"></a>
+</h3>
+<p>Michigan’s racial demographics are shifting dramatically. White student enrollment has declined substantially while Hispanic and multiracial populations grow.</p>
+<div class="float">
+<img src="https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/demographic-shift-1.png" alt="Demographic shift"><div class="figcaption">Demographic shift</div>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"hispanic"</span>, <span class="st">"asian"</span>, <span class="st">"multiracial"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"almartin82/mischooldata"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -99,7 +266,7 @@
 <div class="section level3">
 <h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mischooldata/">mischooldata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -128,31 +295,31 @@
 <div class="section level3">
 <h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> pymischooldata <span class="im">as</span> mi</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>years <span class="op">=</span> mi.get_available_years()</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>enr_2025 <span class="op">=</span> mi.fetch_enr(<span class="dv">2025</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># Fetch multiple years</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>enr_multi <span class="op">=</span> mi.fetch_enr_multi([<span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>, <span class="dv">2024</span>, <span class="dv">2025</span>])</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># State totals</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>state_total <span class="op">=</span> enr_2025[</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    (enr_2025[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>    (enr_2025[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>    (enr_2025[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>]</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co"># Largest districts</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>largest <span class="op">=</span> enr_2025[</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>    (enr_2025[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>    (enr_2025[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    (enr_2025[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>].nlargest(<span class="dv">15</span>, <span class="st">'n_students'</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">import</span> pymischooldata <span class="im">as</span> mi</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>years <span class="op">=</span> mi.get_available_years()</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>enr_2025 <span class="op">=</span> mi.fetch_enr(<span class="dv">2025</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co"># Fetch multiple years</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>enr_multi <span class="op">=</span> mi.fetch_enr_multi([<span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>, <span class="dv">2024</span>, <span class="dv">2025</span>])</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co"># State totals</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>state_total <span class="op">=</span> enr_2025[</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>    (enr_2025[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>    (enr_2025[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>    (enr_2025[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>]</span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co"># Largest districts</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>largest <span class="op">=</span> enr_2025[</span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>    (enr_2025[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>    (enr_2025[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>    (enr_2025[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>].nlargest(<span class="dv">15</span>, <span class="st">'n_students'</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

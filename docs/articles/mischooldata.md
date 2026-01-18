@@ -1,31 +1,15 @@
----
-title: "Getting Started with mischooldata"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Getting Started with mischooldata}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  echo = TRUE,
-  message = FALSE,
-  warning = FALSE,
-  eval = FALSE,
-  cache = TRUE
-)
-```
+# Getting Started with mischooldata
 
 ## Overview
 
-The mischooldata package provides access to Michigan K-12 enrollment data from the Center for Educational Performance and Information (CEPI). Data is available from 1996 to present for all public schools, districts, and the state.
+The mischooldata package provides access to Michigan K-12 enrollment
+data from the Center for Educational Performance and Information (CEPI).
+Data is available from 1996 to present for all public schools,
+districts, and the state.
 
 ## Installation
 
-```{r eval = FALSE}
+``` r
 # Install from GitHub
 remotes::install_github("almartin82/mischooldata")
 ```
@@ -34,12 +18,12 @@ remotes::install_github("almartin82/mischooldata")
 
 ### Fetch a Single Year
 
-```{r}
+``` r
 library(mischooldata)
 library(dplyr)
 
 # Get 2024 enrollment data (2023-24 school year)
-enr_2024 <- fetch_enr(2024, use_cache = TRUE)
+enr_2024 <- fetch_enr(2024)
 
 # View state total
 enr_2024 |>
@@ -49,9 +33,9 @@ enr_2024 |>
 
 ### Fetch Multiple Years
 
-```{r}
+``` r
 # Get 5 years of data
-enr_multi <- fetch_enr_multi(2020:2024, use_cache = TRUE)
+enr_multi <- fetch_enr_multi(2020:2024)
 
 # Track statewide enrollment over time
 enr_multi |>
@@ -62,7 +46,7 @@ enr_multi |>
 
 ### Check Available Years
 
-```{r}
+``` r
 # See what years are available
 get_available_years()
 ```
@@ -72,13 +56,14 @@ get_available_years()
 The tidy format (default) has the following columns:
 
 - `end_year`: School year end (2024 = 2023-24)
-- `type`: "State", "District", or "Building"
+- `type`: “State”, “District”, or “Building”
 - `district_id`: 5-digit district code
 - `campus_id`: 5-digit building code (NA for district/state rows)
 - `district_name`: District name
 - `campus_name`: Building name (NA for district/state rows)
-- `grade_level`: "TOTAL", "K", "01", "02", ..., "12"
-- `subgroup`: Demographic or total ("total_enrollment", "white", "black", etc.)
+- `grade_level`: “TOTAL”, “K”, “01”, “02”, …, “12”
+- `subgroup`: Demographic or total (“total_enrollment”, “white”,
+  “black”, etc.)
 - `n_students`: Enrollment count
 - `pct`: Percentage of total enrollment
 - `is_state`: TRUE for state-level rows
@@ -89,7 +74,7 @@ The tidy format (default) has the following columns:
 
 ### Find Largest Districts
 
-```{r}
+``` r
 enr_2024 |>
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") |>
   arrange(desc(n_students)) |>
@@ -99,7 +84,7 @@ enr_2024 |>
 
 ### Get Detroit Enrollment
 
-```{r}
+``` r
 # Detroit Public Schools Community District = 82015
 enr_2024 |>
   filter(district_id == "82015", grade_level == "TOTAL") |>
@@ -109,7 +94,7 @@ enr_2024 |>
 
 ### Analyze Demographics Over Time
 
-```{r}
+``` r
 enr_multi |>
   filter(is_state, grade_level == "TOTAL",
          subgroup %in% c("white", "black", "hispanic", "asian")) |>
@@ -119,7 +104,7 @@ enr_multi |>
 
 ### Track Kindergarten Enrollment (COVID Impact)
 
-```{r}
+``` r
 enr_multi |>
   filter(is_state, subgroup == "total_enrollment", grade_level == "K") |>
   select(end_year, n_students) |>
@@ -129,8 +114,9 @@ enr_multi |>
 ## Wide Format
 
 For analysis that needs all demographics in columns, use `tidy = FALSE`:
-```{r}
-wide_2024 <- fetch_enr(2024, tidy = FALSE, use_cache = TRUE)
+
+``` r
+wide_2024 <- fetch_enr(2024, tidy = FALSE)
 
 # Contains columns like: row_total, white, black, hispanic, asian,
 # grade_k, grade_01, etc.
@@ -141,7 +127,7 @@ names(wide_2024)
 
 Data is cached locally to avoid repeated downloads:
 
-```{r eval = FALSE}
+``` r
 # View cached files
 cache_status()
 
@@ -159,7 +145,8 @@ enr_fresh <- fetch_enr(2024, use_cache = FALSE)
 
 ### District Codes
 
-Michigan uses 5-digit district codes. The first two digits indicate the Intermediate School District (ISD):
+Michigan uses 5-digit district codes. The first two digits indicate the
+Intermediate School District (ISD):
 
 - `82xxx` - Wayne RESA (includes Detroit)
 - `63xxx` - Oakland Schools
@@ -168,59 +155,69 @@ Michigan uses 5-digit district codes. The first two digits indicate the Intermed
 
 ### Key Districts
 
-| District ID | Name | Approx. Enrollment |
-|-------------|------|-------------------|
-| 82015 | Detroit Public Schools Community District | ~48,000 |
-| 33020 | Grand Rapids Public Schools | ~15,000 |
-| 17010 | Ann Arbor Public Schools | ~17,000 |
-| 23010 | Flint Community Schools | ~3,500 |
+| District ID | Name                                      | Approx. Enrollment |
+|-------------|-------------------------------------------|--------------------|
+| 82015       | Detroit Public Schools Community District | ~48,000            |
+| 33020       | Grand Rapids Public Schools               | ~15,000            |
+| 17010       | Ann Arbor Public Schools                  | ~17,000            |
+| 23010       | Flint Community Schools                   | ~3,500             |
 
 ### Historical Context
 
-Michigan enrollment has been declining:
-- 2010: ~1.6 million students
-- 2020: ~1.4 million students
-- Detroit has lost over 100,000 students since 2000
+Michigan enrollment has been declining: - 2010: ~1.6 million students -
+2020: ~1.4 million students - Detroit has lost over 100,000 students
+since 2000
 
 ## Troubleshooting
 
 ### Slow Downloads
 
-Initial downloads may take 1-2 minutes as files are ~10MB each. Use caching to avoid repeated downloads.
+Initial downloads may take 1-2 minutes as files are ~10MB each. Use
+caching to avoid repeated downloads.
 
 ### Missing Data
 
-Some years or subgroups may have suppressed data (shown as NA) for privacy protection when counts are small.
+Some years or subgroups may have suppressed data (shown as NA) for
+privacy protection when counts are small.
 
 ### xlsb Format
 
-The 2015 (2014-15) file uses `.xlsb` format which may require additional software to read.
+The 2015 (2014-15) file uses `.xlsb` format which may require additional
+software to read.
 
 ### Historical Data Formats
 
-Michigan's data files have evolved over time with different column naming conventions:
+Michigan’s data files have evolved over time with different column
+naming conventions:
 
-- **1996-2003**: Legacy format with uppercase column names (e.g., `TOT_ALL`, `TOT_M_IND`, `K_TOTAL`)
-  - No multiracial or Pacific Islander categories (not tracked separately until 2000s)
+- **1996-2003**: Legacy format with uppercase column names (e.g.,
+  `TOT_ALL`, `TOT_M_IND`, `K_TOTAL`)
+
+  - No multiracial or Pacific Islander categories (not tracked
+    separately until 2000s)
   - Race demographics stored as separate M/F columns that are summed
 
 - **2004-2009**: Transitional format with some lowercase column names
 
-- **2010-present**: Modern format with consistent lowercase names (e.g., `tot_all`, `tot_ai`, `k_totl`)
+- **2010-present**: Modern format with consistent lowercase names (e.g.,
+  `tot_all`, `tot_ai`, `k_totl`)
+
   - Includes multiracial and Pacific Islander categories
 
-The package handles all these formats automatically - just specify the year you want.
+The package handles all these formats automatically - just specify the
+year you want.
 
 ### Building vs District vs State Data
 
-Each year's data includes three levels of aggregation:
+Each year’s data includes three levels of aggregation:
 
 - **Building**: Individual schools (3,500+ in Michigan)
 - **District**: School districts (~800 in Michigan)
 - **State**: Statewide totals
 
-Use the `is_state`, `is_district`, and `is_campus` flags to filter to the level you need.
+Use the `is_state`, `is_district`, and `is_campus` flags to filter to
+the level you need.
 
 ## Getting Help
 
-Report issues at: https://github.com/almartin82/mischooldata/issues
+Report issues at: <https://github.com/almartin82/mischooldata/issues>
