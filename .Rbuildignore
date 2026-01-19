@@ -11,3 +11,4 @@
 ^EXPANSION\.md$
 ^generate_readme_figs\.R$
 ^py.*schooldata$
+^vignettes/.*_cache$

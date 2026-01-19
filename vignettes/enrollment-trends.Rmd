@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   fig.width = 10,
   fig.height = 6,
   out.width = "100%",
+  echo = TRUE,
   message = FALSE,
   warning = FALSE,
   eval = !is_ci,
