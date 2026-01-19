@@ -229,13 +229,13 @@ ggplot(largest, aes(x = district_label, y = n_students)) +
 
 ## 9. Flint’s water crisis visible in enrollment
 
-Flint Community Schools lost over 40% of students during and after the
-water crisis. The crisis accelerated an already declining enrollment as
-families fled the city.
+Flint, School District of the City of, has lost 44% of students since
+2018, dropping from 4,503 to 2,541. The water crisis accelerated an
+already declining enrollment as families fled the city.
 
 ``` r
 flint <- enr %>%
-  filter(is_district, grepl("Flint Community", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Flint, School District", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(flint, aes(x = end_year, y = n_students)) +
@@ -272,14 +272,13 @@ ggplot(oakland_trend, aes(x = end_year, y = n_students, color = district_name)) 
 
 ## 11. Dearborn: Arab American educational hub
 
-Dearborn Public Schools serves one of the largest Arab American
-communities in the nation. The district maintains stable enrollment with
-a unique demographic profile.
+Dearborn City School District serves one of the largest Arab American
+communities in the nation with 19,168 students. The district maintains
+stable enrollment with a unique demographic profile.
 
 ``` r
 dearborn <- enr %>%
-  filter(is_district, grepl("Dearborn", district_name, ignore.case = TRUE),
-         !grepl("Heights", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Dearborn City", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(dearborn, aes(x = end_year, y = n_students)) +
@@ -314,14 +313,14 @@ ggplot(black_state, aes(x = end_year, y = n_students)) +
 
 ## 13. Lansing bucking the urban decline
 
-Unlike Detroit and Flint, Lansing School District has maintained
-relatively stable enrollment. The state capital’s diverse economy and
-state government employment provide a buffer against the losses seen in
-other urban cores.
+Unlike Detroit and Flint, Lansing Public School District has maintained
+relatively stable enrollment around 10,000 students. The state capital’s
+diverse economy and state government employment provide a buffer against
+the losses seen in other urban cores.
 
 ``` r
 lansing <- enr %>%
-  filter(is_district, grepl("Lansing School District", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Lansing Public School District", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(lansing, aes(x = end_year, y = n_students)) +
