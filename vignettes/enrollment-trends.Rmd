@@ -8,6 +8,9 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+# Skip vignette evaluation on CI to avoid network dependencies
+# Users can run locally to see live results
+is_ci <- nzchar(Sys.getenv("CI")) || nzchar(Sys.getenv("GITHUB_ACTIONS"))
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -369,4 +372,8 @@ ggplot(demo_state, aes(x = end_year, y = pct * 100, color = subgroup)) +
        subtitle = "White enrollment declining, Hispanic and multiracial growing",
        x = "School Year", y = "Percent of Students", color = "") +
   theme_readme()
+```
+
+```{r session-info}
+sessionInfo()
 ```
