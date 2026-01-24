@@ -9,6 +9,20 @@ Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.htm
 Fetch and analyze Michigan school enrollment data from the Center for
 Educational Performance and Information (CEPI) in R or Python.
 
+## Why this package exists
+
+This package is part of the [State Schooldata
+Project](https://github.com/almartin82/njschooldata), which provides a
+simple, consistent interface for accessing state-published school data
+in Python and R. The original
+[njschooldata](https://github.com/almartin82/njschooldata) package for
+New Jersey inspired this effort to cover all 50 states.
+
+Michigan publishes detailed enrollment data through CEPI, but the files
+are scattered across multiple URLs, use different formats by year, and
+require significant cleaning. This package handles all of that
+complexity so you can focus on analysis.
+
 ## What can you find with mischooldata?
 
 **30 years of enrollment data (1996-2025).** 1.4 million students. 880+
@@ -16,108 +30,205 @@ districts. Here are fifteen stories hiding in the numbers:
 
 ### 1. Detroit’s collapse is staggering
 
-Detroit Public Schools Community District has lost over 100,000 students
-since 2000, now serving under 50,000. This represents one of the most
+Detroit Public Schools has lost over 100,000 students since 2000. The
+district went from 154,648 students in 2000 (as Detroit City School
+District) to 48,117 in 2025 (as Detroit Public Schools Community
+District after a 2016 restructuring). This represents one of the most
 dramatic urban enrollment declines in American education history.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+# Note: Detroit district ID changed from 82010 to 82015 in 2016 restructuring
+enr_long <- fetch_enr_multi(c(2000, 2005, 2010, 2020, 2025), use_cache = TRUE)
+
+enr_long %>%
+  filter(is_district,
+         grepl("Detroit City|Detroit Public Schools Community", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+#> # A tibble: 5 x 3
+#>   end_year district_name                            n_students
+#>      <dbl> <chr>                                         <dbl>
+#> 1     2000 Detroit City School District                 154648
+#> 2     2005 Detroit City School District                 141406
+#> 3     2010 Detroit City School District                  87877
+#> 4     2020 Detroit Public Schools Community District     50016
+#> 5     2025 Detroit Public Schools Community District     48117
+```
 
 ![Detroit
 decline](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/detroit-decline-1.png)
 
 Detroit decline
 
+### 2. Statewide enrollment has been declining
+
+Michigan has lost over 100,000 students since 2018 alone, reflecting
+demographic shifts and economic changes. The state peaked at around 1.7
+million K-12 students and now serves approximately 1.4 million.
+
 ``` r
 library(mischooldata)
 library(dplyr)
 
-fetch_enr_multi(2000:2025) %>%
-  filter(district_id == "82015", subgroup == "total_enrollment", grade_level == "TOTAL")
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018    1468256
+#> 2     2019    1453135
+#> 3     2020    1444313
+#> 4     2021    1398455
+#> 5     2022    1392700
+#> 6     2023    1383889
+#> 7     2024    1373686
+#> 8     2025    1366207
 ```
-
-### 2. Statewide enrollment has been declining
-
-Michigan has lost hundreds of thousands of students since 2000,
-reflecting demographic shifts and economic changes. The state peaked at
-around 1.7 million K-12 students and now serves approximately 1.4
-million.
 
 ![State
 decline](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/state-decline-1.png)
 
 State decline
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
-```
-
 ### 3. Grand Rapids is more diverse than you think
 
 Michigan’s second-largest city has become majority-minority, with
-Hispanic enrollment growing fastest. Grand Rapids Public Schools now
-reflects a highly diverse student population.
+Hispanic enrollment growing fastest. Grand Rapids Public Schools now has
+39.5% Hispanic, 30.1% Black, 22.1% White, and 1.0% Asian students.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_district, grepl("Grand Rapids Public", district_name, ignore.case = TRUE),
+         grade_level == "TOTAL", end_year == 2025,
+         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
+  select(subgroup, n_students, pct) %>%
+  mutate(pct = round(pct * 100, 1))
+#> # A tibble: 4 x 3
+#>   subgroup n_students   pct
+#>   <chr>         <dbl> <dbl>
+#> 1 white          2997  22.1
+#> 2 black          4077  30.1
+#> 3 hispanic       5359  39.5
+#> 4 asian           141   1.0
+```
 
 ![Grand Rapids
 diversity](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/gr-diversity-1.png)
 
 Grand Rapids diversity
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Grand Rapids", district_name), grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian"))
-```
-
 ### 4. The Upper Peninsula is emptying out
 
-UP districts have lost 25-40% of students since 2000 as the region’s
-population ages and young families move south. This rural decline
-mirrors national patterns but is particularly acute in Michigan’s
-northern reaches.
+UP districts have lost over 30% of students since 2000 as the region’s
+population ages and young families move south. Combined enrollment in
+Marquette, Houghton, Iron Mountain, and Menominee area districts dropped
+from 11,280 to 7,733.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr_long <- fetch_enr_multi(c(2000, 2005, 2010, 2020, 2025), use_cache = TRUE)
+
+up_districts <- c("Marquette", "Houghton", "Iron Mountain", "Menominee")
+enr_long %>%
+  filter(is_district, grepl(paste(up_districts, collapse = "|"), district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  group_by(end_year) %>%
+  summarize(n_students = sum(n_students, na.rm = TRUE), .groups = "drop")
+#> # A tibble: 5 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2000      11280
+#> 2     2005      10250
+#> 3     2010       9115
+#> 4     2020       7975
+#> 5     2025       7733
+```
 
 ![UP
 decline](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/up-decline-1.png)
 
 UP decline
 
-``` r
-fetch_enr_multi(2000:2025) %>%
-  filter(grepl("Marquette|Houghton|Iron Mountain|Menominee", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
-
 ### 5. COVID hit kindergarten hard
 
-Michigan lost nearly 10,000 kindergartners in 2021 and hasn’t fully
-recovered. The pandemic disrupted the transition to formal schooling for
-thousands of Michigan families.
+Michigan lost nearly 14,000 kindergartners in 2021 (from 120,133 in 2020
+to 106,539 in 2021) and hasn’t fully recovered. The pandemic disrupted
+the transition to formal schooling for thousands of Michigan families.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, subgroup == "total_enrollment", grade_level == "K") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018     116636
+#> 2     2019     117694
+#> 3     2020     120133
+#> 4     2021     106539
+#> 5     2022     114744
+#> 6     2023     113864
+#> 7     2024     110738
+#> 8     2025     108230
+```
 
 ![COVID
 kindergarten](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/covid-k-1.png)
 
 COVID kindergarten
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(is_state, subgroup == "total_enrollment",
-         grade_level %in% c("K", "01", "06", "12"))
-```
-
 ### 6. Ann Arbor: island of stability
 
-While Detroit hemorrhages students, Ann Arbor maintains around 17,000
-and high diversity. The university town’s economic stability and
-educated workforce create a different enrollment trajectory.
+While Detroit hemorrhages students, Ann Arbor Public Schools maintains
+around 16,800 students with high diversity. The university town’s
+economic stability and educated workforce create a different enrollment
+trajectory.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_district, grepl("Ann Arbor Public Schools", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018      17669
+#> 2     2019      17950
+#> 3     2020      17942
+#> 4     2021      17386
+#> 5     2022      17016
+#> 6     2023      16961
+#> 7     2024      16918
+#> 8     2025      16810
+```
 
 ![Ann Arbor
 stable](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/aa-stable-1.png)
 
 Ann Arbor stable
-
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Ann Arbor", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
 
 ### 7. Multiracial enrollment growing fastest
 
@@ -126,124 +237,236 @@ increasing 31% from 57,291 to 75,055 students since 2018. While overall
 enrollment declines, multiracial and Hispanic populations continue to
 grow.
 
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, subgroup == "multiracial", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018      57291
+#> 2     2019      60457
+#> 3     2020      63515
+#> 4     2021      65101
+#> 5     2022      68328
+#> 6     2023      70956
+#> 7     2024      73294
+#> 8     2025      75055
+```
+
 ![Multiracial
 growth](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/multiracial-growth-1.png)
 
 Multiracial growth
 
+### 8. Largest districts by enrollment
+
+The 10 largest districts represent a mix of urban, suburban, and diverse
+communities. Detroit remains the largest despite decades of decline,
+followed by suburban powerhouses like Utica and Dearborn.
+
 ``` r
 library(mischooldata)
 library(dplyr)
 
-enr <- fetch_enr_multi(2018:2025)
+enr_current <- fetch_enr(2025, use_cache = TRUE)
 
-enr %>%
-  filter(is_state, subgroup == "multiracial", grade_level == "TOTAL") %>%
-  mutate(change = n_students - lag(n_students),
-         pct_change = round((n_students / lag(n_students) - 1) * 100, 1))
-# 2018: 57,291 students → 2025: 75,055 students (+31%)
+enr_current %>%
+  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
+  head(10) %>%
+  select(district_name, n_students)
+#> # A tibble: 10 x 2
+#>    district_name                            n_students
+#>    <chr>                                         <dbl>
+#>  1 Detroit Public Schools Community District     48117
+#>  2 Utica Community Schools                       25092
+#>  3 Dearborn City School District                 19168
+#>  4 Ann Arbor Public Schools                      16810
+#>  5 Plymouth-Canton Community Schools             15885
+#>  6 Rochester Community School District           14592
+#>  7 Chippewa Valley Schools                       14155
+#>  8 Grand Rapids Public Schools                   13566
+#>  9 Livonia Public Schools School District        12818
+#> 10 Warren Consolidated Schools                   12421
 ```
-
-### 8. Largest districts by enrollment
-
-The 10 largest districts represent a mix of urban, suburban, and diverse
-communities. Detroit remains the largest despite decades of decline.
 
 ![Largest
 districts](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/largest-districts-1.png)
 
 Largest districts
 
-``` r
-fetch_enr(2025) %>%
-  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  arrange(desc(n_students)) %>%
-  head(10)
-```
-
 ### 9. Flint’s water crisis visible in enrollment
 
-Flint Community Schools lost over 40% of students during and after the
-water crisis. The crisis accelerated an already declining enrollment as
-families fled the city.
+Flint, School District of the City of, has lost 44% of students since
+2018, dropping from 4,503 to 2,541. The water crisis accelerated an
+already declining enrollment as families fled the city.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_district, grepl("Flint, School District", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018       4503
+#> 2     2019       4183
+#> 3     2020       3700
+#> 4     2021       3122
+#> 5     2022       2989
+#> 6     2023       2790
+#> 7     2024       2835
+#> 8     2025       2541
+```
 
 ![Flint
 crisis](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/flint-crisis-1.png)
 
 Flint crisis
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Flint Community", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
-
 ### 10. Oakland County suburbs holding
 
-Oakland County districts like Troy, Rochester, and Novi maintain
-enrollment while Detroit collapses. These affluent suburbs benefit from
-strong economies and excellent school reputations.
+Oakland County districts like Troy, Rochester, Novi, and Farmington
+maintain strong enrollment while Detroit collapses. These affluent
+suburbs benefit from strong economies and excellent school reputations.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+oakland <- c("Troy", "Rochester", "Novi", "Farmington")
+enr %>%
+  filter(is_district, grepl(paste(oakland, collapse = "|"), district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL", end_year == 2025) %>%
+  select(district_name, n_students) %>%
+  arrange(desc(n_students))
+#> # A tibble: 4 x 2
+#>   district_name                    n_students
+#>   <chr>                                 <dbl>
+#> 1 Rochester Community School District   14592
+#> 2 Troy School District                  12128
+#> 3 Farmington Public School District      8937
+#> 4 Novi Community School District         6722
+```
 
 ![Oakland
 suburbs](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/oakland-suburbs-1.png)
 
 Oakland suburbs
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Troy|Rochester|Novi|Farmington", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
-
 ### 11. Dearborn: Arab American educational hub
 
-Dearborn Public Schools serves one of the largest Arab American
-communities in the nation. The district maintains stable enrollment with
-a unique demographic profile.
+Dearborn City School District serves one of the largest Arab American
+communities in the nation with 19,168 students. The district maintains
+stable enrollment with a unique demographic profile.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_district, grepl("Dearborn City", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018      20346
+#> 2     2019      20052
+#> 3     2020      20001
+#> 4     2021      19353
+#> 5     2022      19392
+#> 6     2023      19252
+#> 7     2024      19205
+#> 8     2025      19168
+```
 
 ![Dearborn
 enrollment](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/dearborn-enrollment-1.png)
 
 Dearborn enrollment
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Dearborn", district_name), !grepl("Heights", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
-
 ### 12. Black student enrollment declining
 
-Black student enrollment in Michigan has declined significantly, driven
-primarily by Detroit’s collapse. This demographic shift is reshaping the
-state’s educational landscape.
+Black student enrollment in Michigan has declined from 260,423 in 2018
+to 246,009 in 2025, driven primarily by Detroit’s collapse. This
+demographic shift is reshaping the state’s educational landscape.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, subgroup == "black", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018     260423
+#> 2     2019     256379
+#> 3     2020     255296
+#> 4     2021     246583
+#> 5     2022     246831
+#> 6     2023     246629
+#> 7     2024     245569
+#> 8     2025     246009
+```
 
 ![Black
 decline](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/black-decline-1.png)
 
 Black decline
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(is_state, subgroup == "black", grade_level == "TOTAL")
-```
-
 ### 13. Lansing bucking the urban decline
 
-Unlike Detroit and Flint, Lansing School District has maintained
-relatively stable enrollment. The state capital’s diverse economy and
-state government employment provide a buffer.
+Unlike Detroit and Flint, Lansing Public School District has maintained
+relatively stable enrollment around 10,000 students. The state capital’s
+diverse economy and state government employment provide a buffer.
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_district, grepl("Lansing Public School District", district_name, ignore.case = TRUE),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 8 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2018      10641
+#> 2     2019      10462
+#> 3     2020      10440
+#> 4     2021       9862
+#> 5     2022      10015
+#> 6     2023       9866
+#> 7     2024      10022
+#> 8     2025       9808
+```
 
 ![Lansing
 stable](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/lansing-stable-1.png)
 
 Lansing stable
-
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(grepl("Lansing School District", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL")
-```
 
 ### 14. High school enrollment shrinking faster
 
@@ -251,34 +474,67 @@ High school grades are shrinking faster than elementary grades
 statewide, as the birth rate decline from the 2008 recession reaches
 secondary schools.
 
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, subgroup == "total_enrollment",
+         grade_level %in% c("K", "01", "02", "03", "04", "05",
+                            "09", "10", "11", "12")) %>%
+  mutate(level = ifelse(grade_level %in% c("K", "01", "02", "03", "04", "05"),
+                        "Elementary (K-5)", "High School (9-12)")) %>%
+  group_by(end_year, level) %>%
+  summarize(n_students = sum(n_students, na.rm = TRUE), .groups = "drop") %>%
+  filter(end_year %in% c(2018, 2025))
+#> # A tibble: 4 x 3
+#>   end_year level              n_students
+#>      <dbl> <chr>                   <dbl>
+#> 1     2018 Elementary (K-5)       657918
+#> 2     2018 High School (9-12)     431655
+#> 3     2025 Elementary (K-5)       620328
+#> 4     2025 High School (9-12)     397098
+```
+
 ![High school vs
 elementary](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/hs-vs-elem-1.png)
 
 High school vs elementary
 
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(is_state, subgroup == "total_enrollment",
-         grade_level %in% c("K", "01", "02", "03", "04", "05",
-                            "09", "10", "11", "12"))
-```
-
 ### 15. Demographic transformation: Michigan’s changing face
 
-Michigan’s racial demographics are shifting dramatically. White student
-enrollment has declined substantially while Hispanic and multiracial
-populations grow.
+Michigan’s racial demographics are shifting. White students now make up
+62.6% (855,383), Black 18.0% (246,009), Hispanic 9.5% (129,236),
+Multiracial 5.5% (75,055), and Asian 3.8% (51,423).
+
+``` r
+library(mischooldata)
+library(dplyr)
+
+enr <- fetch_enr_multi(2018:2025, use_cache = TRUE)
+
+enr %>%
+  filter(is_state, grade_level == "TOTAL", end_year == 2025,
+         subgroup %in% c("white", "black", "hispanic", "asian", "multiracial")) %>%
+  select(subgroup, n_students, pct) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  arrange(desc(n_students))
+#> # A tibble: 5 x 3
+#>   subgroup    n_students   pct
+#>   <chr>            <dbl> <dbl>
+#> 1 white           855383  62.6
+#> 2 black           246009  18.0
+#> 3 hispanic        129236   9.5
+#> 4 multiracial      75055   5.5
+#> 5 asian            51423   3.8
+```
 
 ![Demographic
 shift](https://almartin82.github.io/mischooldata/articles/enrollment-trends_files/figure-html/demographic-shift-1.png)
 
 Demographic shift
-
-``` r
-fetch_enr_multi(2018:2025) %>%
-  filter(is_state, grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian", "multiracial"))
-```
 
 ## Installation
 
@@ -296,26 +552,34 @@ library(mischooldata)
 library(dplyr)
 
 # Fetch one year
-enr_2025 <- fetch_enr(2025)
+enr_2025 <- fetch_enr(2025, use_cache = TRUE)
 
 # Fetch multiple years
-enr_multi <- fetch_enr_multi(2020:2025)
+enr_multi <- fetch_enr_multi(2020:2025, use_cache = TRUE)
 
 # State totals
 enr_2025 %>%
-  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, n_students)
+#> # A tibble: 1 x 2
+#>   end_year n_students
+#>      <dbl>      <dbl>
+#> 1     2025    1366207
 
 # Largest districts
 enr_2025 %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
-  head(15)
-
-# Detroit demographics
-enr_2025 %>%
-  filter(district_id == "82015", grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
-  select(subgroup, n_students, pct)
+  head(5) %>%
+  select(district_name, n_students)
+#> # A tibble: 5 x 2
+#>   district_name                            n_students
+#>   <chr>                                         <dbl>
+#> 1 Detroit Public Schools Community District     48117
+#> 2 Utica Community Schools                       25092
+#> 3 Dearborn City School District                 19168
+#> 4 Ann Arbor Public Schools                      16810
+#> 5 Plymouth-Canton Community Schools             15885
 ```
 
 ### Python
@@ -326,12 +590,10 @@ import pymischooldata as mi
 # Check available years
 years = mi.get_available_years()
 print(f"Data available from {years['min_year']} to {years['max_year']}")
+#> Data available from 1996 to 2025
 
 # Fetch one year
 enr_2025 = mi.fetch_enr(2025)
-
-# Fetch multiple years
-enr_multi = mi.fetch_enr_multi([2020, 2021, 2022, 2023, 2024, 2025])
 
 # State totals
 state_total = enr_2025[
@@ -339,49 +601,82 @@ state_total = enr_2025[
     (enr_2025['subgroup'] == 'total_enrollment') &
     (enr_2025['grade_level'] == 'TOTAL')
 ]
-
-# Largest districts
-largest = enr_2025[
-    (enr_2025['is_district'] == True) &
-    (enr_2025['subgroup'] == 'total_enrollment') &
-    (enr_2025['grade_level'] == 'TOTAL')
-].nlargest(15, 'n_students')
+print(state_total[['end_year', 'n_students']])
+#>    end_year  n_students
+#> 0      2025     1366207
 ```
 
-## Data availability
+## Data Notes
 
-| Years         | Source            | Notes                                    |
-|---------------|-------------------|------------------------------------------|
-| **2021-2025** | CEPI Modern       | Current format with standardized columns |
-| **2013-2020** | CEPI Transitional | Fall/Spring separation                   |
-| **1996-2012** | CEPI Legacy       | Combined files with older format         |
+### Data Source
 
-Data is sourced from the Michigan Center for Educational Performance and
-Information: - <https://www.mischooldata.org/> -
-<https://www.michigan.gov/cepi>
+All data is sourced directly from the Michigan Center for Educational
+Performance and Information (CEPI): - Main portal:
+<https://www.mischooldata.org/> - Data files:
+<https://www.mischooldata.org/student-enrollment-counts-data-files/> -
+CEPI home: <https://www.michigan.gov/cepi>
 
-### What’s included
+### Available Years
 
-- **Levels:** State, District (880+), Building (school)
-- **Demographics:** White, Black, Hispanic, Asian, Native American,
-  Pacific Islander, Multiracial
-- **Special populations:** Economically disadvantaged, English learners,
-  Special education
-- **Grade levels:** PK through 12
+- **Full range:** 1996-2025 (30 school years)
+- **Note:** 2015 data uses `.xlsb` format which requires special
+  handling
 
-### Michigan-specific notes
+### Collection Period
+
+Michigan enrollment data is collected on **Count Day**, typically the
+first Wednesday in October (Fall Count) and the second Wednesday in
+February (Spring Count). This package uses Fall Count data.
+
+### Suppression Rules
+
+CEPI suppresses (shows as blank/NA) student counts when: - Cell counts
+are less than 10 students for demographic breakdowns - The suppression
+is necessary to prevent identification of individual students
+
+### Known Data Quality Issues
+
+1.  **Detroit restructuring (2016):** Detroit City School
+    District (82010) was restructured as Detroit Public Schools
+    Community District (82015) in 2016. Historical analysis should
+    account for this ID change.
+
+2.  **Charter school proliferation:** Michigan has ~300 charter schools
+    (PSAs - Public School Academies) which are counted as separate
+    districts.
+
+3.  **Schools of Choice:** Inter-district enrollment means some students
+    are counted in districts different from their residence.
+
+### Entity Levels
+
+- **State:** Statewide totals
+- **District:** 880+ traditional public school districts plus charter
+  schools
+- **Building:** 3,500+ individual schools
+
+### District/Building Codes
 
 - **District Code:** 5 digits (e.g., 82015 = Detroit Public Schools)
 - **Building Code:** 5 digits
-- **ISD (Intermediate School District) Code:** 2 digits
-- Michigan has a large **charter school sector** (~300 charter schools)
-- **Schools of Choice** allow inter-district enrollment
-- Detroit has multiple authorizers for charter schools
+- **ISD Code:** First 2 digits of district code indicate Intermediate
+  School District
+
+### Key ISDs (Intermediate School Districts)
+
+| Code | ISD Name        | Major Districts       |
+|------|-----------------|-----------------------|
+| 82   | Wayne RESA      | Detroit, Dearborn     |
+| 63   | Oakland Schools | Troy, Rochester, Novi |
+| 50   | Macomb ISD      | Utica, Warren         |
+| 33   | Kent ISD        | Grand Rapids          |
 
 ## Part of the State Schooldata Project
 
-A simple, consistent interface for accessing state-published school data
-in Python and R.
+This package is part of a larger effort to provide simple, consistent
+access to state-published school data across all 50 states. The project
+started with [njschooldata](https://github.com/almartin82/njschooldata)
+(New Jersey) and has expanded to cover the entire country.
 
 **All 50 state packages:**
 [github.com/almartin82](https://github.com/almartin82?tab=repositories&q=schooldata)
@@ -426,9 +721,9 @@ MIT
 
 # Articles
 
-### All vignettes
+### Articles
 
-- [Michigan Enrollment
-  Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.md):
 - [Getting Started with
   mischooldata](https://almartin82.github.io/mischooldata/articles/mischooldata.md):
+- [Michigan Enrollment
+  Trends](https://almartin82.github.io/mischooldata/articles/enrollment-trends.md):

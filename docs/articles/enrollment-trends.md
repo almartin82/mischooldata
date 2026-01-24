@@ -245,13 +245,13 @@ ggplot(largest, aes(x = district_label, y = n_students)) +
 
 ## 9. Flint’s water crisis visible in enrollment
 
-Flint Community Schools lost over 40% of students during and after the
-water crisis. The crisis accelerated an already declining enrollment as
-families fled the city.
+Flint, School District of the City of, has lost 44% of students since
+2018, dropping from 4,503 to 2,541. The water crisis accelerated an
+already declining enrollment as families fled the city.
 
 ``` r
 flint <- enr %>%
-  filter(is_district, grepl("Flint Community", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Flint, School District", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(flint, aes(x = end_year, y = n_students)) +
@@ -292,14 +292,13 @@ ggplot(oakland_trend, aes(x = end_year, y = n_students, color = district_name)) 
 
 ## 11. Dearborn: Arab American educational hub
 
-Dearborn Public Schools serves one of the largest Arab American
-communities in the nation. The district maintains stable enrollment with
-a unique demographic profile.
+Dearborn City School District serves one of the largest Arab American
+communities in the nation with 19,168 students. The district maintains
+stable enrollment with a unique demographic profile.
 
 ``` r
 dearborn <- enr %>%
-  filter(is_district, grepl("Dearborn", district_name, ignore.case = TRUE),
-         !grepl("Heights", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Dearborn City", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(dearborn, aes(x = end_year, y = n_students)) +
@@ -338,14 +337,14 @@ ggplot(black_state, aes(x = end_year, y = n_students)) +
 
 ## 13. Lansing bucking the urban decline
 
-Unlike Detroit and Flint, Lansing School District has maintained
-relatively stable enrollment. The state capital’s diverse economy and
-state government employment provide a buffer against the losses seen in
-other urban cores.
+Unlike Detroit and Flint, Lansing Public School District has maintained
+relatively stable enrollment around 10,000 students. The state capital’s
+diverse economy and state government employment provide a buffer against
+the losses seen in other urban cores.
 
 ``` r
 lansing <- enr %>%
-  filter(is_district, grepl("Lansing School District", district_name, ignore.case = TRUE),
+  filter(is_district, grepl("Lansing Public School District", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
 
 ggplot(lansing, aes(x = end_year, y = n_students)) +
@@ -413,3 +412,39 @@ ggplot(demo_state, aes(x = end_year, y = pct * 100, color = subgroup)) +
 ```
 
 ![](enrollment-trends_files/figure-html/demographic-shift-1.png)
+
+``` r
+sessionInfo()
+#> R version 4.5.0 (2025-04-11)
+#> Platform: aarch64-apple-darwin22.6.0
+#> Running under: macOS 26.1
+#> 
+#> Matrix products: default
+#> BLAS:   /opt/homebrew/Cellar/openblas/0.3.30/lib/libopenblasp-r0.3.30.dylib 
+#> LAPACK: /opt/homebrew/Cellar/r/4.5.0/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+#> 
+#> locale:
+#> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#> 
+#> time zone: America/New_York
+#> tzcode source: internal
+#> 
+#> attached base packages:
+#> [1] stats     graphics  grDevices utils     datasets  methods   base     
+#> 
+#> other attached packages:
+#> [1] scales_1.4.0       dplyr_1.1.4        ggplot2_4.0.1      mischooldata_0.1.0
+#> 
+#> loaded via a namespace (and not attached):
+#>  [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.5.0     tidyselect_1.2.1  
+#>  [5] jquerylib_0.1.4    systemfonts_1.3.1  textshaping_1.0.4  yaml_2.3.12       
+#>  [9] fastmap_1.2.0      R6_2.6.1           labeling_0.4.3     generics_0.1.4    
+#> [13] knitr_1.51         htmlwidgets_1.6.4  tibble_3.3.1       desc_1.4.3        
+#> [17] bslib_0.9.0        pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.1.7       
+#> [21] cachem_1.1.0       xfun_0.55          fs_1.6.6           sass_0.4.10       
+#> [25] S7_0.2.1           otel_0.2.0         cli_3.6.5          pkgdown_2.2.0     
+#> [29] withr_3.0.2        magrittr_2.0.4     digest_0.6.39      grid_4.5.0        
+#> [33] lifecycle_1.0.5    vctrs_0.7.0        evaluate_1.0.5     glue_1.8.0        
+#> [37] farver_2.1.2       codetools_0.2-20   ragg_1.5.0         rmarkdown_2.30    
+#> [41] tools_4.5.0        pkgconfig_2.0.3    htmltools_0.5.9
+```

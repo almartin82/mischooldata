@@ -23,7 +23,7 @@ library(mischooldata)
 library(dplyr)
 
 # Get 2024 enrollment data (2023-24 school year)
-enr_2024 <- fetch_enr(2024)
+enr_2024 <- fetch_enr(2024, use_cache = TRUE)
 
 # View state total
 enr_2024 |>
@@ -35,7 +35,7 @@ enr_2024 |>
 
 ``` r
 # Get 5 years of data
-enr_multi <- fetch_enr_multi(2020:2024)
+enr_multi <- fetch_enr_multi(2020:2024, use_cache = TRUE)
 
 # Track statewide enrollment over time
 enr_multi |>
@@ -116,7 +116,7 @@ enr_multi |>
 For analysis that needs all demographics in columns, use `tidy = FALSE`:
 
 ``` r
-wide_2024 <- fetch_enr(2024, tidy = FALSE)
+wide_2024 <- fetch_enr(2024, tidy = FALSE, use_cache = TRUE)
 
 # Contains columns like: row_total, white, black, hispanic, asian,
 # grade_k, grade_01, etc.
@@ -221,3 +221,7 @@ the level you need.
 ## Getting Help
 
 Report issues at: <https://github.com/almartin82/mischooldata/issues>
+
+``` r
+sessionInfo()
+```
