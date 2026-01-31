@@ -19,10 +19,24 @@ utils::globalVariables(
     "is_state",
     "is_district",
     "is_campus",
+    "is_school",
     "end_year",
     "district_id",
     "campus_id",
     "district_name",
-    "campus_name"
+    "campus_name",
+    # Assessment-specific columns
+    "school_id",
+    "school_name",
+    "test",
+    "subject",
+    "grade",
+    "n_tested",
+    "proficiency_level",
+    "pct_not_proficient",
+    "pct_partially_proficient",
+    "pct_proficient",
+    "pct_advanced",
+    "pct_prof_adv"
   )
 )

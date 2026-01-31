@@ -38,6 +38,9 @@ skip_if_offline <- function() {
 
 test_that("MI School Data landing page is accessible", {
   skip_if_offline()
+  # mischooldata.org blocks requests from cloud IPs (GitHub Actions, AWS, etc.)
+  # This test only makes sense when run locally
+  skip_on_ci()
 
   response <- httr::HEAD(
     "https://www.mischooldata.org/student-enrollment-counts-data-files/",
