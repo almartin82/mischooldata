@@ -13,9 +13,51 @@ federal data.
 
 ## Package Overview
 
-mischooldata fetches and processes Michigan K-12 enrollment data from
-the Center for Educational Performance and Information (CEPI). Data is
-sourced from downloadable Excel files on the MI School Data website.
+mischooldata fetches and processes Michigan K-12 enrollment and
+assessment data from the Center for Educational Performance and
+Information (CEPI). Data is sourced from downloadable Excel files on the
+MI School Data website.
+
+## Assessment Data
+
+### Assessment Systems
+
+- **MEAP** (2007-2014): Michigan Educational Assessment Program
+- **M-STEP** (2015-present): Michigan Student Test of Educational
+  Progress
+- **2020**: No data due to COVID-19 testing waiver
+
+### Data Access Limitation
+
+**Important:** Michigan’s M-STEP data (2015+) is served through the MI
+School Data portal (mischooldata.org) which uses interactive reports.
+The michigan.gov CDN blocks programmatic access to historical files.
+
+For M-STEP data, users must: 1. Download data manually from
+<https://www.mischooldata.org/> 2. Use
+[`import_local_assessment()`](https://almartin82.github.io/mischooldata/reference/import_local_assessment.md)
+to load the downloaded file
+
+### Assessment Functions
+
+- `fetch_assessment(year)` - Attempts to fetch assessment data
+- `fetch_assessment_multi(years)` - Fetch multiple years
+- [`get_available_assessment_years()`](https://almartin82.github.io/mischooldata/reference/get_available_assessment_years.md) -
+  Check available years
+- `import_local_assessment(filepath, year)` - Import manually downloaded
+  file
+
+### Assessment Proficiency Levels
+
+- **M-STEP**: Not Proficient, Partially Proficient, Proficient, Advanced
+- **MEAP (legacy)**: Level 1 (lowest) through Level 4 (highest)
+
+### Assessment Subjects
+
+- ELA (grades 3-8, 11)
+- Math (grades 3-8, 11)
+- Science (grades 5, 8, 11)
+- Social Studies (grades 5, 8, 11)
 
 ## Data Sources
 

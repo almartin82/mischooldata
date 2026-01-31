@@ -47,7 +47,49 @@
 
 <div class="section level2">
 <h2 id="package-overview">Package Overview<a class="anchor" aria-label="anchor" href="#package-overview"></a></h2>
-<p>mischooldata fetches and processes Michigan K-12 enrollment data from the Center for Educational Performance and Information (CEPI). Data is sourced from downloadable Excel files on the MI School Data website.</p>
+<p>mischooldata fetches and processes Michigan K-12 enrollment and assessment data from the Center for Educational Performance and Information (CEPI). Data is sourced from downloadable Excel files on the MI School Data website.</p>
+</div>
+<div class="section level2">
+<h2 id="assessment-data">Assessment Data<a class="anchor" aria-label="anchor" href="#assessment-data"></a></h2>
+<div class="section level3">
+<h3 id="assessment-systems">Assessment Systems<a class="anchor" aria-label="anchor" href="#assessment-systems"></a></h3>
+<ul><li>
+<strong>MEAP</strong> (2007-2014): Michigan Educational Assessment Program</li>
+<li>
+<strong>M-STEP</strong> (2015-present): Michigan Student Test of Educational Progress</li>
+<li>
+<strong>2020</strong>: No data due to COVID-19 testing waiver</li>
+</ul></div>
+<div class="section level3">
+<h3 id="data-access-limitation">Data Access Limitation<a class="anchor" aria-label="anchor" href="#data-access-limitation"></a></h3>
+<p><strong>Important:</strong> Michigan’s M-STEP data (2015+) is served through the MI School Data portal (mischooldata.org) which uses interactive reports. The michigan.gov CDN blocks programmatic access to historical files.</p>
+<p>For M-STEP data, users must: 1. Download data manually from <a href="https://www.mischooldata.org/" class="external-link uri">https://www.mischooldata.org/</a> 2. Use <code><a href="reference/import_local_assessment.html">import_local_assessment()</a></code> to load the downloaded file</p>
+</div>
+<div class="section level3">
+<h3 id="assessment-functions">Assessment Functions<a class="anchor" aria-label="anchor" href="#assessment-functions"></a></h3>
+<ul><li>
+<code>fetch_assessment(year)</code> - Attempts to fetch assessment data</li>
+<li>
+<code>fetch_assessment_multi(years)</code> - Fetch multiple years</li>
+<li>
+<code><a href="reference/get_available_assessment_years.html">get_available_assessment_years()</a></code> - Check available years</li>
+<li>
+<code>import_local_assessment(filepath, year)</code> - Import manually downloaded file</li>
+</ul></div>
+<div class="section level3">
+<h3 id="assessment-proficiency-levels">Assessment Proficiency Levels<a class="anchor" aria-label="anchor" href="#assessment-proficiency-levels"></a></h3>
+<ul><li>
+<strong>M-STEP</strong>: Not Proficient, Partially Proficient, Proficient, Advanced</li>
+<li>
+<strong>MEAP (legacy)</strong>: Level 1 (lowest) through Level 4 (highest)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="assessment-subjects">Assessment Subjects<a class="anchor" aria-label="anchor" href="#assessment-subjects"></a></h3>
+<ul><li>ELA (grades 3-8, 11)</li>
+<li>Math (grades 3-8, 11)</li>
+<li>Science (grades 5, 8, 11)</li>
+<li>Social Studies (grades 5, 8, 11)</li>
+</ul></div>
 </div>
 <div class="section level2">
 <h2 id="data-sources">Data Sources<a class="anchor" aria-label="anchor" href="#data-sources"></a></h2>
